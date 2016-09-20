@@ -18,7 +18,7 @@ scalaVersion := "2.11.8"
 
 Add resolver to project build.sbt:
 ```scala
-resolvers += Resolver.jcenterRepo
+resolvers += Resolver.bintrayRepo("stonexx", "maven")
 ```
 
 > If you need `play-anorm` support, add dependency:
