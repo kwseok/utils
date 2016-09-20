@@ -1,0 +1,8 @@
+@(message: String)(implicit messages: Messages)
+
+@layouts.default(module = Some(routes.Assets.versioned("js/main.js")))() {
+
+    @message
+
+    <div id="app"></div>
+}

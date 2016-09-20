@@ -1,0 +1,13 @@
+@(name: String)(implicit messages: Messages)
+
+@head = {
+    <script type="text/javascript" src="@routes.Assets.versioned("components/react/react.js")"></script>
+    <script type="text/javascript" src="@routes.Assets.versioned("components/react-bootstrap/react-bootstrap.js")"></script>
+}
+
+@layouts.default(Some(s"React example: $name"))(head) {
+
+    <div id="app"></div>
+    <script type="text/javascript" src="@routes.Assets.versioned(s"js/react/$name.js")"></script>
+
+}

@@ -1,0 +1,14 @@
+language: scala
+scala:
+   - 2.11.7
+jdk:
+  - oraclejdk8
+script:
+  - "sbt ++$TRAVIS_SCALA_VERSION test"
+branches:
+  except:
+    - /^v[0-9]/
+cache:
+  directories:
+    - $HOME/.sbt
+    - $HOME/.ivy2

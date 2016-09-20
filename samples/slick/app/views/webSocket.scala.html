@@ -1,0 +1,7 @@
+@()(implicit messages: Messages)
+
+@layouts.default(Some("WebSocket Testing"), Some(routes.Assets.versioned("js/main-webSocket.js")))() {
+
+    <div id="log"></div>
+
+}

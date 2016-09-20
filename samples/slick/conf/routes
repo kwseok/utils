@@ -1,0 +1,46 @@
+# Routes
+# This file defines all application routes (Higher priority routes first)
+# ~~~~
+
+# Home page
+GET         /                          controllers.Application.index
+
+# Json examples
+GET         /places                    controllers.Application.listPlaces
+POST        /places                    controllers.Application.savePlace
+GET         /jsonTransform             controllers.Application.jsonTransform
+
+# Asynchronous example
+GET         /timeout                   controllers.Application.timeout
+# Serving files example
+GET         /favicon                   controllers.Application.favicon
+# Comet example
+GET         /comet                     controllers.Application.comet
+GET         /cometEvents               controllers.Application.cometEvents
+
+# Websocket examples
+GET         /webSocket                 controllers.Application.webSocket
+GET         /webSocketWS               controllers.Application.webSocketWS
+
+# React examples
+GET         /react/:name               controllers.Application.react(name: String)
+
+# Task examples
+GET         /tasks                     controllers.Tasks.index
+POST        /tasks                     controllers.Tasks.create
+GET         /tasks/:id/delete          controllers.Tasks.delete(id: Long)
+GET         /tasks/routes.js           controllers.Tasks.jsRoutes
+
+# Slick examples
+GET         /cats                      controllers.Cats.list
+GET         /cats.json                 controllers.Cats.listJson
+GET         /cats.comet                controllers.Cats.listComet
+POST        /cats                      controllers.Cats.create
+GET         /cats/:name/delete         controllers.Cats.delete(name: String)
+
+# JavaScript Routes
+GET         /routes.js                 controllers.Application.jsRoutes
+
+# Map static resources from the /public folder to the /assets URL path
+GET         /assets/*file              controllers.Assets.versioned(path = "/public", file: Asset)
+

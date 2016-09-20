@@ -1,0 +1,36 @@
+@(title: Option[String] = None, module: Option[Call] = None)(head: Html = Html(""))(content: Html)(implicit messages: Messages)
+
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>@title.getOrElse(Messages("app.name"))</title>
+        <link rel="shortcut icon" type="image/png" href="@routes.Assets.versioned("images/favicon.png")"/>
+        <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
+        <link rel="stylesheet" media="screen" href="@routes.Assets.versioned("css/main.css")"/>
+        @module.map { m =>
+            <script type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/require.js/2.2.0/require.min.js"></script>
+            <script type="text/javascript" src="@routes.Assets.versioned("js/require-config.js")"></script>
+            <script type="text/javascript">require(['@m.url']);</script>
+        }
+        @head
+    </head>
+    <body>
+        <nav class="navbar navbar-default navbar-fixed-top" role="navigation">
+            <div class="container">
+                <h1 class="fill">
+                    <a href="@routes.Application.index()">
+                        Play @play.core.PlayVersion.current application &mdash; Sample
+                    </a>
+                </h1>
+            </div>
+        </nav>
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                <h3 class="panel-title">@title</h3>
+            </div>
+            <div class="panel-body">
+            @content
+            </div>
+        </div>
+    </body>
+</html>
