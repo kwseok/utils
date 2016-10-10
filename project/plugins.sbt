@@ -3,7 +3,7 @@ logLevel := Level.Warn
 resolvers += Resolver.typesafeRepo("releases")
 
 // The Play plugin
-addSbtPlugin("com.typesafe.play" % "sbt-plugin" % sys.props.getOrElse("play.version", "2.5.8"))
+addSbtPlugin("com.typesafe.play" % "sbt-plugin" % sys.props.getOrElse("play.version", "2.5.9"))
 
 // web plugins
 addSbtPlugin("com.typesafe.sbt" % "sbt-coffeescript" % "1.0.0")
@@ -20,6 +20,6 @@ addSbtPlugin("com.github.dwickern" % "sbt-bower" % "1.0.3")
 
 // etc plugins
 addSbtPlugin("me.lessis" % "bintray-sbt" % "0.3.0" exclude ("org.slf4j", "slf4j-nop"))
-addSbtPlugin("io.get-coursier" % "sbt-coursier" % "1.0.0-M14-2")
+addSbtPlugin("io.get-coursier" % "sbt-coursier" % "1.0.0-M14-3")
 addSbtPlugin("org.ensime" % "sbt-ensime" % "1.9.0")
 addSbtPlugin("net.virtual-void" % "sbt-dependency-graph" % "0.8.2")
