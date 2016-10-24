@@ -80,7 +80,7 @@ trait JodaFormats {
   /**
    * the ISO8601 implicit [[org.joda.time.LocalTime]] reads
    */
-  implicit lazy val jodaIsoLocalTimeReads = jodaLocalTimeReads(isoTimeFormatter)
+  implicit lazy val jodaIsoLocalTimeReads: Reads[LocalTime] = jodaLocalTimeReads(isoTimeFormatter)
 
   /**
    * Reads for the [[org.joda.time.Period]] type.
@@ -104,5 +104,5 @@ trait JodaFormats {
   /**
    * the ISO8601 implicit [[org.joda.time.Period]] reads
    */
-  implicit lazy val jodaIsoPeriodReads = jodaPeriodReads(isoPeriodFormatter)
+  implicit lazy val jodaIsoPeriodReads: Reads[Period] = jodaPeriodReads(isoPeriodFormatter)
 }

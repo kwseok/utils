@@ -15,12 +15,12 @@ import org.jsoup.safety.{Cleaner, Whitelist}
 import scala.util.matching.Regex
 
 object StringOps {
-  final val RegexDuplicatedSlash                   = """/{2,}""".r
-  final val RegexAntStylePatternSpecialCharacters  = """[-\[\]{}()+.,\\^$|#\s]""".r
-  final val RegexAntStylePatternWildcardsWithSlash = """(/?\*\*)|(/?\*)|(\?)|(/)""".r
-  final val RegexBeginningOfEachLine               = """(?m)^""".r
-  final val RegexAllTags                           = """<[/\!]*?[^<>]*?>""".r
-  final val RegexSpecialRegexChars                 = "[{}()\\[\\].+*?^$\\\\|]".r
+  final val RegexDuplicatedSlash                  : Regex = """/{2,}""".r
+  final val RegexAntStylePatternSpecialCharacters : Regex = """[-\[\]{}()+.,\\^$|#\s]""".r
+  final val RegexAntStylePatternWildcardsWithSlash: Regex = """(/?\*\*)|(/?\*)|(\?)|(/)""".r
+  final val RegexBeginningOfEachLine              : Regex = """(?m)^""".r
+  final val RegexAllTags                          : Regex = """<[/\!]*?[^<>]*?>""".r
+  final val RegexSpecialRegexChars                : Regex = "[{}()\\[\\].+*?^$\\\\|]".r
 
   def defaultHtmlCleanerProperties: CleanerProperties = {
     val props = new CleanerProperties()

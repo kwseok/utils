@@ -6,10 +6,11 @@ import java.nio.file.Path
 import org.apache.commons.io.FilenameUtils.{getBaseName, getExtension}
 import org.apache.commons.lang3.RandomStringUtils.randomAlphanumeric
 
+import scala.util.matching.Regex
 import scala.util.matching.Regex.Groups
 
 object PathOps {
-  final val RegexNumberedBaseName = """(.*)\((\d+)\)$""".r
+  final val RegexNumberedBaseName: Regex = """(.*)\((\d+)\)$""".r
 }
 
 final class PathOps(val self: Path) extends AnyVal {

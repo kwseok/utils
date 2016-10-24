@@ -1,12 +1,12 @@
 package com.github.stonexx.scala.data
 
 final case class Ordering(direction: Ordering.Direction = Ordering.Asc, nulls: Ordering.NullOrdering = Ordering.NullsDefault) {
-  def asc = copy(direction = Ordering.Asc)
-  def desc = copy(direction = Ordering.Desc)
-  def reverse = copy(direction = direction.reverse)
-  def nullsDefault = copy(nulls = Ordering.NullsDefault)
-  def nullsFirst = copy(nulls = Ordering.NullsFirst)
-  def nullsLast = copy(nulls = Ordering.NullsLast)
+  def asc: Ordering = copy(direction = Ordering.Asc)
+  def desc: Ordering = copy(direction = Ordering.Desc)
+  def reverse: Ordering = copy(direction = direction.reverse)
+  def nullsDefault: Ordering = copy(nulls = Ordering.NullsDefault)
+  def nullsFirst: Ordering = copy(nulls = Ordering.NullsFirst)
+  def nullsLast: Ordering = copy(nulls = Ordering.NullsLast)
 }
 
 object Ordering {

@@ -9,7 +9,7 @@ import scala.reflect.ClassTag
 trait PgEnumSupportFixed extends PgEnumSupport { self: PostgresProfile =>
   import PgEnumSupportUtils.sqlName
 
-  def createEnumArrayJdbcType[T <: Enumeration](sqlEnumTypeName: String, enumObject: T, quoteName: Boolean = false) =
+  def createEnumArrayJdbcType[T <: Enumeration](sqlEnumTypeName: String, enumObject: T, quoteName: Boolean = false): AdvancedArrayJdbcType[enumObject.Value] =
     createEnumArrayJdbcType[enumObject.Value](sqlEnumTypeName, _.toString, s => enumObject.withName(s), quoteName)
 
   def createEnumArrayJdbcType[T: ClassTag](sqlEnumTypeName: String, enumToString: (T => String), stringToEnum: (String => T), quoteName: Boolean) =

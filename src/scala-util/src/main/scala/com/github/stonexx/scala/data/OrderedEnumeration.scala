@@ -56,12 +56,12 @@ abstract class OrderedEnumeration extends Enumeration { self =>
   }
 
   case class ValueOrdered(value: Value, ord: Ordering) extends Ordered(Vector((value, ord))) {
-    def asc = copy(ord = ord.asc)
-    def desc = copy(ord = ord.desc)
-    def reverse = copy(ord = ord.reverse)
-    def nullsDefault = copy(ord = ord.nullsDefault)
-    def nullsFirst = copy(ord = ord.nullsFirst)
-    def nullsLast = copy(ord = ord.nullsLast)
+    def asc: ValueOrdered = copy(ord = ord.asc)
+    def desc: ValueOrdered = copy(ord = ord.desc)
+    def reverse: ValueOrdered = copy(ord = ord.reverse)
+    def nullsDefault: ValueOrdered = copy(ord = ord.nullsDefault)
+    def nullsFirst: ValueOrdered = copy(ord = ord.nullsFirst)
+    def nullsLast: ValueOrdered = copy(ord = ord.nullsLast)
 
     override def toString: String = Ordered.stringify(this)
   }

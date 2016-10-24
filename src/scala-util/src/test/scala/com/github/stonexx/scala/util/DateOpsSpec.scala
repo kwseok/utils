@@ -1,6 +1,6 @@
 package com.github.stonexx.scala.util
 
-import java.util.{Calendar, Locale, TimeZone}
+import java.util.{TimeZone, Locale, Calendar, Date}
 
 import org.scalatest._
 
@@ -14,7 +14,7 @@ class DateOpsSpec extends FlatSpec with Matchers {
     hourOfDay: Int, minute: Int, second: Int, millisecond: Int,
     timeZone: TimeZone = TimeZone.getDefault,
     locale: Locale = Locale.getDefault
-  ) = {
+  ): Date = {
     val calendar = Calendar.getInstance(timeZone, locale)
     calendar.set(year, month - 1, date, hourOfDay, minute, second)
     calendar.set(Calendar.MILLISECOND, millisecond)

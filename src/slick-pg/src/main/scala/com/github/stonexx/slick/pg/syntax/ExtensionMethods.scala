@@ -52,54 +52,54 @@ trait SyntaxAssistants {
     implicit
     tm: TypedType[P1],
     om: OptionMapperDSL.arg[String, P1]#arg[String, P2]#to[Float, R]
-  ) = om.column(SyntaxLibrary.Similarity, a.toNode, b.toNode)
+  ): Rep[R] = om.column(SyntaxLibrary.Similarity, a.toNode, b.toNode)
 
   def showTrgm[P1, R](a: Rep[P1])(
     implicit
     tm1: TypedType[P1], tm2: TypedType[Seq[String]],
     om: OptionMapperDSL.arg[String, P1]#to[Seq[String], R]
-  ) = om.column(SyntaxLibrary.ShowTrgm, a.toNode)
+  ): Rep[R] = om.column(SyntaxLibrary.ShowTrgm, a.toNode)
 
   def setLimit[P1, R](a: Rep[P1])(
     implicit
     tm: TypedType[P1],
     om: OptionMapperDSL.arg[Float, P1]#to[Float, R]
-  ) = om.column(SyntaxLibrary.SetLimit, a.toNode)
+  ): Rep[R] = om.column(SyntaxLibrary.SetLimit, a.toNode)
 
   def showLimit: Rep[Float] = SyntaxLibrary.ShowLimit.column[Float]()
 }
 
 final class StringColumnExtensionMethods[P1](val c: Rep[P1]) extends AnyVal with ExtensionMethods[String, P1] {
-  protected[this] implicit def b1Type = implicitly[TypedType[String]]
+  protected[this] implicit def b1Type: TypedType[String] = implicitly[TypedType[String]]
 
-  def ~<~[P2, R](e: Rep[P2])(implicit om: o#arg[String, P2]#to[Boolean, R]) = om.column(SyntaxLibrary.~<~, n, e.toNode)
-  def ~<=~[P2, R](e: Rep[P2])(implicit om: o#arg[String, P2]#to[Boolean, R]) = om.column(SyntaxLibrary.~<=~, n, e.toNode)
-  def ~>~[P2, R](e: Rep[P2])(implicit om: o#arg[String, P2]#to[Boolean, R]) = om.column(SyntaxLibrary.~>~, n, e.toNode)
-  def ~>=~[P2, R](e: Rep[P2])(implicit om: o#arg[String, P2]#to[Boolean, R]) = om.column(SyntaxLibrary.~>=~, n, e.toNode)
+  def ~<~[P2, R](e: Rep[P2])(implicit om: o#arg[String, P2]#to[Boolean, R]): Rep[R] = om.column(SyntaxLibrary.~<~, n, e.toNode)
+  def ~<=~[P2, R](e: Rep[P2])(implicit om: o#arg[String, P2]#to[Boolean, R]): Rep[R] = om.column(SyntaxLibrary.~<=~, n, e.toNode)
+  def ~>~[P2, R](e: Rep[P2])(implicit om: o#arg[String, P2]#to[Boolean, R]): Rep[R] = om.column(SyntaxLibrary.~>~, n, e.toNode)
+  def ~>=~[P2, R](e: Rep[P2])(implicit om: o#arg[String, P2]#to[Boolean, R]): Rep[R] = om.column(SyntaxLibrary.~>=~, n, e.toNode)
 
-  def ~[P2, R](e: Rep[P2])(implicit om: o#arg[String, P2]#to[Boolean, R]) = om.column(SyntaxLibrary.~, n, e.toNode)
-  def ~*[P2, R](e: Rep[P2])(implicit om: o#arg[String, P2]#to[Boolean, R]) = om.column(SyntaxLibrary.~*, n, e.toNode)
-  def !~[P2, R](e: Rep[P2])(implicit om: o#arg[String, P2]#to[Boolean, R]) = om.column(SyntaxLibrary.!~, n, e.toNode)
-  def !~*[P2, R](e: Rep[P2])(implicit om: o#arg[String, P2]#to[Boolean, R]) = om.column(SyntaxLibrary.!~*, n, e.toNode)
+  def ~[P2, R](e: Rep[P2])(implicit om: o#arg[String, P2]#to[Boolean, R]): Rep[R] = om.column(SyntaxLibrary.~, n, e.toNode)
+  def ~*[P2, R](e: Rep[P2])(implicit om: o#arg[String, P2]#to[Boolean, R]): Rep[R] = om.column(SyntaxLibrary.~*, n, e.toNode)
+  def !~[P2, R](e: Rep[P2])(implicit om: o#arg[String, P2]#to[Boolean, R]): Rep[R] = om.column(SyntaxLibrary.!~, n, e.toNode)
+  def !~*[P2, R](e: Rep[P2])(implicit om: o#arg[String, P2]#to[Boolean, R]): Rep[R] = om.column(SyntaxLibrary.!~*, n, e.toNode)
 
-  def ~~[P2, R](e: Rep[P2], esc: Char = '\u0000')(implicit om: o#arg[String, P2]#to[Boolean, R]) =
+  def ~~[P2, R](e: Rep[P2], esc: Char = '\u0000')(implicit om: o#arg[String, P2]#to[Boolean, R]): Rep[R] =
     if (esc == '\u0000') om.column(SyntaxLibrary.~~, n, e.toNode)
     else om.column(SyntaxLibrary.~~, n, e.toNode, LiteralNode(esc))
-  def ~~*[P2, R](e: Rep[P2], esc: Char = '\u0000')(implicit om: o#arg[String, P2]#to[Boolean, R]) =
+  def ~~*[P2, R](e: Rep[P2], esc: Char = '\u0000')(implicit om: o#arg[String, P2]#to[Boolean, R]): Rep[R] =
     if (esc == '\u0000') om.column(SyntaxLibrary.~~*, n, e.toNode)
     else om.column(SyntaxLibrary.~~*, n, e.toNode, LiteralNode(esc))
-  def ilike[P2, R](e: Rep[P2], esc: Char = '\u0000')(implicit om: o#arg[String, P2]#to[Boolean, R]) =
+  def ilike[P2, R](e: Rep[P2], esc: Char = '\u0000')(implicit om: o#arg[String, P2]#to[Boolean, R]): Rep[R] =
     if (esc == '\u0000') om.column(SyntaxLibrary.ILike, n, e.toNode)
     else om.column(SyntaxLibrary.ILike, n, e.toNode, LiteralNode(esc))
 
-  def similarity[P2, R](e: Rep[P2])(implicit om: o#arg[String, P2]#to[Float, R]) = om.column(SyntaxLibrary.Similarity, n, e.toNode)
-  def %-%[P2, R](e: Rep[P2])(implicit om: o#arg[String, P2]#to[Boolean, R]) = om.column(SyntaxLibrary.%-%, n, e.toNode)
-  def <->[P2, R](e: Rep[P2])(implicit om: o#arg[String, P2]#to[Float, R]) = om.column(SyntaxLibrary.<->, n, e.toNode)
+  def similarity[P2, R](e: Rep[P2])(implicit om: o#arg[String, P2]#to[Float, R]): Rep[R] = om.column(SyntaxLibrary.Similarity, n, e.toNode)
+  def %-%[P2, R](e: Rep[P2])(implicit om: o#arg[String, P2]#to[Boolean, R]): Rep[R] = om.column(SyntaxLibrary.%-%, n, e.toNode)
+  def <->[P2, R](e: Rep[P2])(implicit om: o#arg[String, P2]#to[Float, R]): Rep[R] = om.column(SyntaxLibrary.<->, n, e.toNode)
 
   def regexpReplace[P2, P3, R](pattern: Rep[P2], replacement: Rep[P3], flags: Option[String] = None)(
     implicit
     om: o#arg[String, P2]#arg[String, P3]#to[String, R]
-  ) = flags match {
+  ): Rep[R] = flags match {
     case None => om.column(SyntaxLibrary.RegexpReplace, n, pattern.toNode, replacement.toNode)
     case Some(f) => om.column(SyntaxLibrary.RegexpReplace, n, pattern.toNode, replacement.toNode, LiteralNode(f))
   }
@@ -118,7 +118,7 @@ final class StringColumnExtensionMethods[P1](val c: Rep[P1]) extends AnyVal with
     implicit
     tm: TypedType[Seq[String]],
     om: o#arg[String, P2]#to[Seq[String], R]
-  ) = flags match {
+  ): Rep[R] = flags match {
     case None => om.column(SyntaxLibrary.RegexpSplitToArray, n, pattern.toNode)
     case Some(f) => om.column(SyntaxLibrary.RegexpSplitToArray, n, pattern.toNode, LiteralNode(f))
   }

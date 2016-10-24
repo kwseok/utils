@@ -23,9 +23,9 @@ trait PageableComponent { self: JdbcProfile =>
 
     def onResult(implicit ec: ExecutionContext): Query[E, U, Seq] => DBIOAction[Seq[Result], NoStream, Effect.All]
 
-    def queryFilter(f: Filter) = onFilter(f)(QueryFilter())
+    def queryFilter(f: Filter): QueryFilter[E] = onFilter(f)(QueryFilter())
 
-    def filteredQuery(f: Filter) = queryFilter(f)(query)
+    def filteredQuery(f: Filter): Query[E, U, Seq] = queryFilter(f)(query)
 
     def pagedResult(
       page: Int, size: Int,

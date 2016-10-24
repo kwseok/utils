@@ -50,8 +50,8 @@ final class QueryExtensionMethods[+E, U, C[_]](val q: Query[E, U, C]) extends An
 }
 
 final class SingleColumnQueryExtensionMethods[B1, P1, C[_]](val q: Query[Rep[P1], _, C]) extends AnyVal {
-  def head(implicit tm: TypedType[B1]) = ExtensionLibrary.Apply.column[B1](q.toNode)
-  def headOption(implicit tm: TypedType[Option[B1]]) = ExtensionLibrary.Apply.column[Option[B1]](q.toNode)
+  def head(implicit tm: TypedType[B1]): Rep[B1] = ExtensionLibrary.Apply.column[B1](q.toNode)
+  def headOption(implicit tm: TypedType[Option[B1]]): Rep[Option[B1]] = ExtensionLibrary.Apply.column[Option[B1]](q.toNode)
 }
 
 final class DBIOActionExtensionMethods[R, S <: NoStream, E <: Effect](val action: DBIOAction[R, S, E]) extends AnyVal {
@@ -89,7 +89,7 @@ final class SQLActionBuilderExtensionMethods(val builder: SQLActionBuilder) exte
 }
 
 final class OrderedEnumerationOrderedExtensionMethods[E <: OrderedEnumeration](val o: E#Ordered) extends AnyVal {
-  @inline def toSlickOrdered(f: E#Value => Rep[_]) = OrderedEnumerationUtils.toSlickOrdered(o)(f)
+  @inline def toSlickOrdered(f: E#Value => Rep[_]): slick.lifted.Ordered = OrderedEnumerationUtils.toSlickOrdered(o)(f)
 }
 
 trait ExtensionMethodConversions {

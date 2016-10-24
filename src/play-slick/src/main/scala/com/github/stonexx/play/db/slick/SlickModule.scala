@@ -78,6 +78,7 @@ class SlickApiProvider @Inject()(
  * Inject provider for named databases.
  */
 class NamedDatabaseProvider(name: String) extends Provider[Database] {
+  //noinspection VarCouldBeVal
   @Inject private var slickApi: SlickApi = _
   lazy            val get     : Database = slickApi.database(name)
 }

@@ -5,7 +5,7 @@ import java.util.UUID
 
 import com.github.tminglei.slickpg.PgArraySupport
 import com.google.common.cache.CacheBuilder
-import slick.ast.{Library, TypedType}
+import slick.ast.{Library, TypedType, OptionTypedType}
 import slick.jdbc.{PostgresProfile, JdbcType}
 import slick.lifted.FunctionSymbolExtensionMethods._
 
@@ -80,37 +80,37 @@ trait PgArraySupportFixed extends PgArraySupport { self: PostgresProfile =>
     implicit final class BaseStringArrayAsVarcharArrayColumn[C[X] <: Seq[X]](val v: C[String])(
       implicit ct: ClassTag[C[String]], cbf: CanBuildFrom[Nothing, String, C[String@uV]]
     ) extends StringArrayAsVarcharArrayColumn[C[String]] {
-      override def varcharArrayType = varcharArrayJdbcType[C]
+      override def varcharArrayType: JdbcType[C[String]] = varcharArrayJdbcType[C]
     }
 
     implicit final class OptionStringArrayAsVarcharArrayColumn[C[X] <: Seq[X]](val v: Option[C[String]])(
       implicit ct: ClassTag[C[String]], cbf: CanBuildFrom[Nothing, String, C[String@uV]]
     ) extends StringArrayAsVarcharArrayColumn[Option[C[String]]] {
-      override def varcharArrayType = varcharArrayJdbcType[C].optionType
+      override def varcharArrayType: OptionTypedType[C[String]] = varcharArrayJdbcType[C].optionType
     }
 
     trait StringArrayColumnAsTextOrVarcharArrayColumn[P] {
       def c: Rep[P]
       def textArrayType: TypedType[P]
       def varcharArrayType: TypedType[P]
-      def asColumnOfTextArray = Library.Cast.column[P](c.toNode)(textArrayType)
-      def asColumnOfVarcharArray = Library.Cast.column[P](c.toNode)(varcharArrayType)
+      def asColumnOfTextArray: Rep[P] = Library.Cast.column[P](c.toNode)(textArrayType)
+      def asColumnOfVarcharArray: Rep[P] = Library.Cast.column[P](c.toNode)(varcharArrayType)
     }
 
     implicit final class BaseStringArrayColumnAsTextOrVarcharArrayColumn[C[X] <: Seq[X], CC[_]](val c: Rep[CC[String]])(
       implicit ev1: CC[String] <:< C[String], ev2: TypedType[C[String]] =:= TypedType[CC[String]],
       ct: ClassTag[C[String]], tt: ru.TypeTag[C[String]], cbf: CanBuildFrom[Nothing, String, C[String@uV]]
     ) extends StringArrayColumnAsTextOrVarcharArrayColumn[CC[String]] {
-      override def textArrayType = simpleArrayJdbcType[String, C]
-      override def varcharArrayType = varcharArrayJdbcType[C]
+      override def textArrayType: TypedType[CC[String]] = simpleArrayJdbcType[String, C]
+      override def varcharArrayType: TypedType[CC[String]] = varcharArrayJdbcType[C]
     }
 
     implicit final class OptionStringArrayColumnAsTextOrVarcharArrayColumn[C[X] <: Seq[X], CC[_]](val c: Rep[Option[CC[String]]])(
       implicit ev1: CC[String] <:< C[String], ev2: TypedType[Option[C[String]]] =:= TypedType[Option[CC[String]]],
       ct: ClassTag[C[String]], tt: ru.TypeTag[C[String]], cbf: CanBuildFrom[Nothing, String, C[String@uV]]
     ) extends StringArrayColumnAsTextOrVarcharArrayColumn[Option[CC[String]]] {
-      override def textArrayType = simpleArrayJdbcType[String, C].optionType
-      override def varcharArrayType = varcharArrayJdbcType[C].optionType
+      override def textArrayType: TypedType[Option[CC[String]]] = simpleArrayJdbcType[String, C].optionType
+      override def varcharArrayType: TypedType[Option[CC[String]]] = varcharArrayJdbcType[C].optionType
     }
   }
 

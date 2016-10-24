@@ -17,8 +17,8 @@ trait ExtJdbcProfile extends JdbcProfile with PageableComponent { self =>
   import self.api._
 
   object MappedEnumColumnType {
-    def id(enum: Enumeration) = MappedColumnType.base[enum.Value, Int](_.id, enum(_))
-    def name(enum: Enumeration) = MappedColumnType.base[enum.Value, String](_.toString, s => enum.withName(s))
+    def id(enum: Enumeration): BaseColumnType[enum.Value] = MappedColumnType.base[enum.Value, Int](_.id, enum(_))
+    def name(enum: Enumeration): BaseColumnType[enum.Value] = MappedColumnType.base[enum.Value, String](_.toString, s => enum.withName(s))
   }
 }
 

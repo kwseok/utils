@@ -12,7 +12,7 @@ trait EnumFormats {
     serialize: E#Value => String,
     error: (String, Throwable) => Seq[FormError]
   ): Formatter[E#Value] = new Formatter[E#Value] {
-    def bind(key: String, data: Map[String, String]) =
+    def bind(key: String, data: Map[String, String]): Either[Seq[FormError], E#Value] =
       play.api.data.format.Formats.stringFormat.bind(key, data).right.flatMap { s =>
         scala.util.control.Exception.allCatch[E#Value].either(parse(s)).left.map(error(key, _))
       }
@@ -31,7 +31,7 @@ trait EnumFormats {
   )
 
   def enumSortFormat[E <: SortableEnumeration](enum: E): Formatter[E#Ordered] = new Formatter[E#Ordered] {
-    def bind(key: String, data: Map[String, String]) =
+    def bind(key: String, data: Map[String, String]): Either[Seq[FormError], E#Ordered] =
       play.api.data.format.Formats.stringFormat.bind(key, data).right.flatMap { s =>
         scala.util.control.Exception.allCatch[E#Ordered].either(enum.Ordered.parse(s))
           .left.map(_ => Seq(FormError(key, "error.sort", Seq(s))))
@@ -41,7 +41,7 @@ trait EnumFormats {
   }
 
   def enumOrderedFormat[E <: OrderedEnumeration](enum: E): Formatter[E#Ordered] = new Formatter[E#Ordered] {
-    def bind(key: String, data: Map[String, String]) =
+    def bind(key: String, data: Map[String, String]): Either[Seq[FormError], E#Ordered] =
       play.api.data.format.Formats.stringFormat.bind(key, data).right.flatMap { s =>
         scala.util.control.Exception.allCatch[E#Ordered].either(enum.Ordered.parse(s))
           .left.map(_ => Seq(FormError(key, "error.sort", Seq(s))))

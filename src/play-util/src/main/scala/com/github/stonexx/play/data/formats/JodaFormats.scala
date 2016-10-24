@@ -23,7 +23,7 @@ trait JodaFormats {
   def jodaDateTimeFormat(formatter: DateTimeFormatter): Formatter[DateTime] = new Formatter[DateTime] {
     override val format = Some(("format.date", Nil))
 
-    def bind(key: String, data: Map[String, String]) = parsing(
+    def bind(key: String, data: Map[String, String]): Either[Seq[FormError], DateTime] = parsing(
       formatter.parseDateTime,
       "error.date", e => Seq(e.getMessage)
     )(key, data)
@@ -44,7 +44,7 @@ trait JodaFormats {
   def jodaLocalDateFormat(formatter: DateTimeFormatter): Formatter[LocalDate] = new Formatter[LocalDate] {
     override val format = Some(("format.date", Nil))
 
-    def bind(key: String, data: Map[String, String]) = parsing(
+    def bind(key: String, data: Map[String, String]): Either[Seq[FormError], LocalDate] = parsing(
       formatter.parseDateTime _ andThen (_.toLocalDate),
       "error.date", e => Seq(e.getMessage)
     )(key, data)
@@ -65,7 +65,7 @@ trait JodaFormats {
   def jodaLocalTimeFormat(formatter: DateTimeFormatter): Formatter[LocalTime] = new Formatter[LocalTime] {
     override val format = Some(("format.time", Nil))
 
-    def bind(key: String, data: Map[String, String]) = parsing(
+    def bind(key: String, data: Map[String, String]): Either[Seq[FormError], LocalTime] = parsing(
       formatter.parseDateTime _ andThen (_.toLocalTime),
       "error.time", e => Seq(e.getMessage)
     )(key, data)
@@ -86,7 +86,7 @@ trait JodaFormats {
   def jodaPeriodFormat(formatter: PeriodFormatter): Formatter[Period] = new Formatter[Period] {
     override val format = Some(("format.period", Nil))
 
-    def bind(key: String, data: Map[String, String]) = parsing(
+    def bind(key: String, data: Map[String, String]): Either[Seq[FormError], Period] = parsing(
       formatter.parsePeriod,
       "error.period", e => Seq(e.getMessage)
     )(key, data)

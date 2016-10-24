@@ -10,7 +10,7 @@ object ArrayLibrary {
 }
 
 final class SingleColumnQueryExtensionMethods[B1, P1, C[_]](val q: Query[Rep[P1], _, C]) extends AnyVal {
-  def array(implicit tm: TypedType[C[B1]]) = ArrayLibrary.Array.column[C[B1]](q.toNode)
+  def array(implicit tm: TypedType[C[B1]]): Rep[C[B1]] = ArrayLibrary.Array.column[C[B1]](q.toNode)
 }
 
 trait ExtensionMethodConversions {
