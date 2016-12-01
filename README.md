@@ -1,12 +1,12 @@
 # Libraries for Scala, Slick & Play [![Build Status](https://travis-ci.org/stonexx/lib.svg?branch=master)](https://travis-ci.org/stonexx/lib)
 
-- [play-anorm](https://github.com/stonexx/lib/tree/master/codes/play-anorm)
-- [play-slick](https://github.com/stonexx/lib/tree/master/codes/play-slick)
-- [play-slick-jdbc-adapter](https://github.com/stonexx/lib/tree/master/codes/play-slick-jdbc-adapter)
-- [play-util](https://github.com/stonexx/lib/tree/master/codes/play-util)
-- [slick-ext](https://github.com/stonexx/lib/tree/master/codes/slick-ext)
-- [slick-pg](https://github.com/stonexx/lib/tree/master/codes/slick-pg)
-- [scala-util](https://github.com/stonexx/lib/tree/master/codes/scala-util)
+- [play-anorm](https://github.com/stonexx/lib/tree/master/src/play-anorm)
+- [play-slick](https://github.com/stonexx/lib/tree/master/src/play-slick)
+- [play-slick-jdbc-adapter](https://github.com/stonexx/lib/tree/master/src/play-slick-jdbc-adapter)
+- [play-util](https://github.com/stonexx/lib/tree/master/src/play-util)
+- [slick-ext](https://github.com/stonexx/lib/tree/master/src/slick-ext)
+- [slick-pg](https://github.com/stonexx/lib/tree/master/src/slick-pg)
+- [scala-util](https://github.com/stonexx/lib/tree/master/src/scala-util)
 
 Installation
 ------------
