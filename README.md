@@ -23,35 +23,35 @@ resolvers += Resolver.jcenterRepo
 
 > If you need `play-anorm` support, add dependency:
 ```scala
-libraryDependencies += "com.github.stonexx" %% "play-anorm" % "0.6.5-M1"
+libraryDependencies += "com.github.stonexx" %% "play-anorm" % "0.6.5-M2"
 ```
 
 > If you need `play-slick` support, add dependency:
 ```scala
-libraryDependencies += "com.github.stonexx" %% "play-slick" % "0.6.5-M1"
+libraryDependencies += "com.github.stonexx" %% "play-slick" % "0.6.5-M2"
 ```
 
 > If you need `play-slick-jdbc-adapter` support, add dependency:
 ```scala
-libraryDependencies += "com.github.stonexx" %% "play-slick-jdbc-adapter" % "0.6.5-M1"
+libraryDependencies += "com.github.stonexx" %% "play-slick-jdbc-adapter" % "0.6.5-M2"
 ```
 
 > If you need `play-util` support, add dependency:
 ```scala
-libraryDependencies += "com.github.stonexx" %% "play-util" % "0.6.5-M1"
+libraryDependencies += "com.github.stonexx" %% "play-util" % "0.6.5-M2"
 ```
 
 > If you need `slick-ext` support, add dependency:
 ```scala
-libraryDependencies += "com.github.stonexx" %% "slick-ext" % "0.6.5-M1"
+libraryDependencies += "com.github.stonexx" %% "slick-ext" % "0.6.5-M2"
 ```
 
 > If you need `slick-pg` support, add dependency:
 ```scala
-libraryDependencies += "com.github.stonexx" %% "slick-pg" % "0.6.5-M1"
+libraryDependencies += "com.github.stonexx" %% "slick-pg" % "0.6.5-M2"
 ```
 
 > If you need `scala-util` support, add dependency:
 ```scala
-libraryDependencies += "com.github.stonexx" %% "scala-util" % "0.6.5-M1"
+libraryDependencies += "com.github.stonexx" %% "scala-util" % "0.6.5-M2"
 ```
