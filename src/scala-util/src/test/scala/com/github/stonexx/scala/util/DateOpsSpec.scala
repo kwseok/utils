@@ -86,47 +86,47 @@ class DateOpsSpec extends FlatSpec with Matchers {
     getDate(2014, 1, 1, 0, 0, 0, 0).withMilliseconds(1).format("yyyy-MM-dd a HH:mm:ss SSS", locale = Locale.KOREA) shouldBe "2014-01-01 오전 00:00:00 001"
   }
 
-  "#truncYear" should "날짜를 년도까지를 제외하고 모두 초기화" in {
-    getDate(2014, 7, 27, 13, 12, 7, 123).truncYear.format("yyyy-MM-dd a HH:mm:ss", locale = Locale.KOREA) shouldBe "2014-01-01 오전 00:00:00"
+  "#truncateYear" should "날짜를 년도까지를 제외하고 모두 초기화" in {
+    getDate(2014, 7, 27, 13, 12, 7, 123).truncateYear.format("yyyy-MM-dd a HH:mm:ss", locale = Locale.KOREA) shouldBe "2014-01-01 오전 00:00:00"
   }
 
-  "#truncMonth" should "날짜를 월까지를 제외하고 모두 초기화" in {
-    getDate(2014, 7, 27, 13, 12, 7, 123).truncMonth.format("yyyy-MM-dd a HH:mm:ss", locale = Locale.KOREA) shouldBe "2014-07-01 오전 00:00:00"
+  "#truncateMonth" should "날짜를 월까지를 제외하고 모두 초기화" in {
+    getDate(2014, 7, 27, 13, 12, 7, 123).truncateMonth.format("yyyy-MM-dd a HH:mm:ss", locale = Locale.KOREA) shouldBe "2014-07-01 오전 00:00:00"
   }
 
-  "#truncSemiMonth" should "날짜를 보름까지를 제외하고 모두 초기화" in {
-    getDate(2014, 7, 27, 13, 12, 7, 123).truncSemiMonth.format("yyyy-MM-dd a HH:mm:ss", locale = Locale.KOREA) shouldBe "2014-07-16 오전 00:00:00"
+  "#truncateSemiMonth" should "날짜를 보름까지를 제외하고 모두 초기화" in {
+    getDate(2014, 7, 27, 13, 12, 7, 123).truncateSemiMonth.format("yyyy-MM-dd a HH:mm:ss", locale = Locale.KOREA) shouldBe "2014-07-16 오전 00:00:00"
   }
 
-  "#truncDate" should "날짜를 일자까지를 제외하고 모두 초기화" in {
-    getDate(2014, 7, 27, 13, 12, 7, 123).truncDate.format("yyyy-MM-dd a HH:mm:ss", locale = Locale.KOREA) shouldBe "2014-07-27 오전 00:00:00"
+  "#truncateDate" should "날짜를 일자까지를 제외하고 모두 초기화" in {
+    getDate(2014, 7, 27, 13, 12, 7, 123).truncateDate.format("yyyy-MM-dd a HH:mm:ss", locale = Locale.KOREA) shouldBe "2014-07-27 오전 00:00:00"
   }
 
-  "#truncAmPm" should "날짜를 오전/오후까지를 제외하고 모두 초기화" in {
-    getDate(2014, 7, 27, 13, 12, 7, 123).truncAmPm.format("yyyy-MM-dd a HH:mm:ss", locale = Locale.KOREA) shouldBe "2014-07-27 오후 12:00:00"
+  "#truncateAmPm" should "날짜를 오전/오후까지를 제외하고 모두 초기화" in {
+    getDate(2014, 7, 27, 13, 12, 7, 123).truncateAmPm.format("yyyy-MM-dd a HH:mm:ss", locale = Locale.KOREA) shouldBe "2014-07-27 오후 12:00:00"
   }
 
-  "#truncHour" should "날짜를 시간까지를 제외하고 모두 초기화" in {
-    getDate(2014, 7, 27, 13, 12, 7, 123).truncHour.format("yyyy-MM-dd a HH:mm:ss", locale = Locale.KOREA) shouldBe "2014-07-27 오후 13:00:00"
+  "#truncateHour" should "날짜를 시간까지를 제외하고 모두 초기화" in {
+    getDate(2014, 7, 27, 13, 12, 7, 123).truncateHour.format("yyyy-MM-dd a HH:mm:ss", locale = Locale.KOREA) shouldBe "2014-07-27 오후 13:00:00"
   }
 
-  "#truncMinute" should "날짜를 분까지를 제외하고 모두 초기화" in {
-    getDate(2014, 7, 27, 13, 12, 7, 123).truncMinute.format("yyyy-MM-dd a HH:mm:ss", locale = Locale.KOREA) shouldBe "2014-07-27 오후 13:12:00"
+  "#truncateMinute" should "날짜를 분까지를 제외하고 모두 초기화" in {
+    getDate(2014, 7, 27, 13, 12, 7, 123).truncateMinute.format("yyyy-MM-dd a HH:mm:ss", locale = Locale.KOREA) shouldBe "2014-07-27 오후 13:12:00"
   }
 
-  "#truncSecond" should "날짜를 초까지를 제외하고 모두 초기화" in {
-    getDate(2014, 7, 27, 13, 12, 7, 123).truncSecond.format("yyyy-MM-dd a HH:mm:ss", locale = Locale.KOREA) shouldBe "2014-07-27 오후 13:12:07"
+  "#truncateSecond" should "날짜를 초까지를 제외하고 모두 초기화" in {
+    getDate(2014, 7, 27, 13, 12, 7, 123).truncateSecond.format("yyyy-MM-dd a HH:mm:ss", locale = Locale.KOREA) shouldBe "2014-07-27 오후 13:12:07"
   }
 
-  "#truncMillisecond" should "날짜를 밀리초까지를 제외하고 모두 초기화" in {
-    getDate(2014, 7, 27, 13, 12, 7, 123).truncMillisecond.format("yyyy-MM-dd a HH:mm:ss SSS", locale = Locale.KOREA) shouldBe "2014-07-27 오후 13:12:07 123"
+  "#truncateMillisecond" should "날짜를 밀리초까지를 제외하고 모두 초기화" in {
+    getDate(2014, 7, 27, 13, 12, 7, 123).truncateMillisecond.format("yyyy-MM-dd a HH:mm:ss SSS", locale = Locale.KOREA) shouldBe "2014-07-27 오후 13:12:07 123"
   }
 
   "#diff" should "두 날짜의 차이 계산" in {
     getDate(2014, 7, 27, 0, 0, 0, 0) diff getDate(2014, 7, 28, 0, 0, 0, 0) shouldBe 1.day
   }
 
-  "#ofExpiry" should "주어진 날짜의 만료시간(23시 59분 59초 999밀리초)" in {
-    getDate(2014, 7, 27, 0, 0, 0, 0).ofExpiry.format("yyyy-MM-dd a HH:mm:ss SSS", locale = Locale.KOREA) shouldBe "2014-07-27 오후 23:59:59 999"
+  "#endTimeInDay" should "주어진 날짜의 만료시간(23시 59분 59초 999밀리초)" in {
+    getDate(2014, 7, 27, 0, 0, 0, 0).endTimeInDay.format("yyyy-MM-dd a HH:mm:ss SSS", locale = Locale.KOREA) shouldBe "2014-07-27 오후 23:59:59 999"
   }
 }
