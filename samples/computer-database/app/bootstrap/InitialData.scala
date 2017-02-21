@@ -3,16 +3,18 @@ package bootstrap
 import java.text.SimpleDateFormat
 import javax.inject.Inject
 
-import dao.{CompanyDao, ComputerDao}
+import dao.{ComputerDao, CompanyDao}
 import models.{Computer, Company}
-import play.api.libs.concurrent.Execution.Implicits.defaultContext
 
-import scala.concurrent.Await
+import scala.concurrent.{Await, ExecutionContext}
 import scala.concurrent.duration.Duration
 import scala.util.Try
 
 /** Initial set of data to be imported into the sample application. */
-private[bootstrap] class InitialData @Inject()(companyDao: CompanyDao, computerDao: ComputerDao) {
+private[bootstrap] class InitialData @Inject()(
+  companyDao: CompanyDao,
+  computerDao: ComputerDao
+)(implicit ec: ExecutionContext) {
 
   def insert(): Unit = {
     val insertInitialDataFuture = for {

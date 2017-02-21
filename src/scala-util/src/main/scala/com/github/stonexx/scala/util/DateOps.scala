@@ -33,26 +33,26 @@ final class DateOps(val self: Date) extends AnyVal {
   @inline def withSeconds(amount: Int): Date = DateUtils.setSeconds(self, amount)
   @inline def withMilliseconds(amount: Int): Date = DateUtils.setMilliseconds(self, amount)
 
-  @inline def truncYear: Date = DateUtils.truncate(self, YEAR)
-  @inline def truncMonth: Date = DateUtils.truncate(self, MONTH)
-  @inline def truncSemiMonth: Date = DateUtils.truncate(self, DateUtils.SEMI_MONTH)
-  @inline def truncDate: Date = DateUtils.truncate(self, DATE)
-  @inline def truncAmPm: Date = DateUtils.truncate(self, AM_PM)
-  @inline def truncHour: Date = DateUtils.truncate(self, HOUR)
-  @inline def truncMinute: Date = DateUtils.truncate(self, MINUTE)
-  @inline def truncSecond: Date = DateUtils.truncate(self, SECOND)
-  @inline def truncMillisecond: Date = DateUtils.truncate(self, MILLISECOND)
+  @inline def truncateYear: Date = DateUtils.truncate(self, YEAR)
+  @inline def truncateMonth: Date = DateUtils.truncate(self, MONTH)
+  @inline def truncateSemiMonth: Date = DateUtils.truncate(self, DateUtils.SEMI_MONTH)
+  @inline def truncateDate: Date = DateUtils.truncate(self, DATE)
+  @inline def truncateAmPm: Date = DateUtils.truncate(self, AM_PM)
+  @inline def truncateHour: Date = DateUtils.truncate(self, HOUR)
+  @inline def truncateMinute: Date = DateUtils.truncate(self, MINUTE)
+  @inline def truncateSecond: Date = DateUtils.truncate(self, SECOND)
+  @inline def truncateMillisecond: Date = DateUtils.truncate(self, MILLISECOND)
 
   @inline def diff(to: Date): Duration = Duration(to.getTime - self.getTime, TimeUnit.MILLISECONDS)
 
   /**
-   * 해당 날짜의 만료시간을 가져온다.
+   * 해당 날짜의 끝시간을 가져온다.
    *
    * @param timeZone the time zone.
    * @param locale   the locale.
-   * @return 만료시간. (23시 59분 59초 999밀리초)
+   * @return 끝시간. (23시 59분 59초 999밀리초)
    */
-  def ofExpiry(timeZone: TimeZone = TimeZone.getDefault, locale: Locale = Locale.getDefault): Date = {
+  def endTimeInDay(timeZone: TimeZone = TimeZone.getDefault, locale: Locale = Locale.getDefault): Date = {
     val c = Calendar.getInstance(timeZone, locale)
     c.setLenient(false)
     c.setTimeInMillis(self.getTime)
@@ -63,7 +63,7 @@ final class DateOps(val self: Date) extends AnyVal {
     c.getTime
   }
 
-  @inline def ofExpiry: Date = ofExpiry()
+  @inline def endTimeInDay: Date = endTimeInDay()
 }
 
 trait ToDateOps {

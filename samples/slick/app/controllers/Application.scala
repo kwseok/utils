@@ -9,25 +9,29 @@ import akka.stream.Materializer
 import akka.stream.scaladsl.Source
 import models._
 import play.api._
-import play.api.i18n.{I18nSupport, MessagesApi}
+import play.api.i18n.I18nSupport
 import play.api.libs.Comet
-import play.api.libs.concurrent.Execution.Implicits._
 import play.api.libs.json._
 import play.api.libs.streams.ActorFlow
 import play.api.mvc._
 import play.api.routing.JavaScriptReverseRouter
 
+import scala.concurrent.ExecutionContext
+
 @Singleton
-class Application @Inject()(val messagesApi: MessagesApi)(
+class Application @Inject()(
+  components: ControllerComponents
+)(
   implicit
+  ec: ExecutionContext,
   env: Environment,
   materializer: Materializer,
   actorSystem: ActorSystem
-) extends Controller with I18nSupport {
+) extends AbstractController(components) with I18nSupport {
 
   private val logger = Logger(this.getClass)
 
-  def index = Action {
+  def index = Action { implicit request =>
     Ok(views.html.index("Your new application is ready."))
   }
 
@@ -37,7 +41,7 @@ class Application @Inject()(val messagesApi: MessagesApi)(
     Ok(Json.toJson(Place.list))
   }
 
-  def savePlace = Action(parse.json) { request =>
+  def savePlace: Action[JsValue] = Action(parse.json) { request =>
     request.body.validate[Place].map { place =>
       Place.save(place)
       Ok(Json.obj(
@@ -79,7 +83,7 @@ class Application @Inject()(val messagesApi: MessagesApi)(
   }
 
   // Handling time-outs exmaple
-  def timeout = Action.async {
+  def timeout: Action[AnyContent] = Action.async {
     import scala.concurrent.Future
     import scala.concurrent.duration._
 
@@ -111,7 +115,9 @@ class Application @Inject()(val messagesApi: MessagesApi)(
   }
 
   // Comet example
-  def comet = Action {Ok(views.html.comet())}
+  def comet = Action { implicit request =>
+    Ok(views.html.comet())
+  }
 
   def cometEvents = Action {
     val events = Source.single(Json.arr("kiki", "foo", "bar"))
@@ -120,13 +126,17 @@ class Application @Inject()(val messagesApi: MessagesApi)(
 
   // WebSocket examples
 
-  def webSocket = Action {Ok(views.html.webSocket())}
+  def webSocket = Action { implicit request =>
+    Ok(views.html.webSocket())
+  }
 
-  def webSocketWS = WebSocket.accept[InEvent, OutEvent] { _ => ActorFlow.actorRef(MyWebSocketActor.props) }
+  def webSocketWS: WebSocket = WebSocket.accept[InEvent, OutEvent] { _ =>
+    ActorFlow.actorRef(MyWebSocketActor.props)
+  }
 
   // React examples
 
-  def react(name: String) = Action {
+  def react(name: String) = Action { implicit request =>
     Ok(views.html.react(name))
   }
 

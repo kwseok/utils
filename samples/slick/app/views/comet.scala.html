@@ -2,11 +2,11 @@
 
 @layouts.default(Some("Comet Example"))() {
 
-    <script type="text/javascript">
-    function cometMessage(event) {
+  <script type="text/javascript">
+      function cometMessage (event) {
         console.log('Received event: ' + event);
-    }
-    </script>
-    <iframe src="@routes.Application.cometEvents()" style="display : none ;"></iframe>
+      }
+  </script>
+  <iframe src="@routes.Application.cometEvents()" style="display: none ;"></iframe>
 
 }

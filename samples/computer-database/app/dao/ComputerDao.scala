@@ -5,13 +5,12 @@ import javax.inject.{Inject, Singleton}
 import com.github.stonexx.play.db.slick.Database
 import com.github.stonexx.scala.data.Page
 import models.{Computer, Company}
-import play.api.libs.concurrent.Execution.Implicits._
 import slick.ast.TypedType
 
-import scala.concurrent.Future
+import scala.concurrent.{Future, ExecutionContext}
 
 @Singleton
-class ComputerDao @Inject()(db: Database) {
+class ComputerDao @Inject()(db: Database)(implicit ec: ExecutionContext) {
   import slick.Tables._, profile.api._
   import Computer.forms.{Sorts => S}
 
@@ -42,6 +41,7 @@ class ComputerDao @Inject()(db: Database) {
       case S.Ordered(S.Introduced, desc) => q.sortBy(ordered(_._1.introduced)(desc))
       case S.Ordered(S.Discontinued, desc) => q.sortBy(ordered(_._1.discontinued)(desc))
       case S.Ordered(S.Company, desc) => q.sortBy(ordered(_._2.map(_.name))(desc))
+      case _ => ???
     }
 
     db.run(for {

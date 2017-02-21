@@ -2,33 +2,33 @@
 
 @layouts.default(Some("Cat database"))() {
 
-    <h2>Insert a kitty cat here:</h2>
+  <h2>Insert a kitty cat here:</h2>
 
-    @helper.form(routes.Cats.create()) {
-        @helper.inputText(catForm("name"), 'placeholder -> "name your feline friend")
-        @helper.inputText(catForm("color"), 'placeholder -> "enter the color of this kitty cat")
-        @helper.select(catForm("state"), Cat.State.values.toSeq.map { v => v.toString -> v.label })
-        <input type="submit"/>
+  @helper.form(routes.Cats.create()) {
+    @helper.inputText(catForm("name"), 'placeholder -> "name your feline friend")
+    @helper.inputText(catForm("color"), 'placeholder -> "enter the color of this kitty cat")
+    @helper.select(catForm("state"), Cat.State.values.toSeq.map { v => v.toString -> v.label })
+    <input type="submit"/>
+  }
+
+  <h2>Previously inserted cats:</h2>
+  <table>
+    <tr>
+      <th>Name</th>
+      <th>Color</th>
+      <th>Flag</th>
+      <th>State</th>
+      <th></th>
+    </tr>
+    @for(c <- cats) {
+      <tr>
+        <td>@c.name</td>
+        <td>@c.color</td>
+        <td>@c.flag</td>
+        <td>@c.state.label</td>
+        <td><a href="@routes.Cats.delete(c.name)">X</a></td>
+      </tr>
     }
-
-    <h2>Previously inserted cats:</h2>
-    <table>
-        <tr>
-            <th>Name</th>
-            <th>Color</th>
-            <th>Flag</th>
-            <th>State</th>
-            <th></th>
-        </tr>
-        @for(c <- cats) {
-            <tr>
-                <td>@c.name</td>
-                <td>@c.color</td>
-                <td>@c.flag</td>
-                <td>@c.state.label</td>
-                <td><a href="@routes.Cats.delete(c.name)">X</a></td>
-            </tr>
-        }
-    </table>
+  </table>
 
 }

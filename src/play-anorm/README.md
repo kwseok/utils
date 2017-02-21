@@ -1,1 +1,0 @@
-# Play extensions for Anorm

@@ -4,13 +4,14 @@ import sbt._
 import sbt.Keys._
 import sbt.plugins._
 
-object CommonSettings extends AutoPlugin {
+object Build extends AutoPlugin {
   override def requires: Plugins = JvmPlugin
   override def trigger: PluginTrigger = allRequirements
 
   override def projectSettings = Seq(
     organization := "com.github.stonexx",
-    scalaVersion := Version.scala,
+    scalaVersion := Versions.scalaVersions.min,
+    crossScalaVersions := Versions.scalaVersions,
     scalacOptions ++= Seq(
       "-encoding", "utf8",
       "-deprecation",
@@ -29,7 +30,7 @@ object CommonSettings extends AutoPlugin {
   )
 }
 
-object Root extends AutoPlugin {
+object RootSettings extends AutoPlugin {
   override def requires = BintrayPlugin
 
   override def projectSettings = Seq(
@@ -41,7 +42,7 @@ object Root extends AutoPlugin {
   )
 }
 
-object Lib extends AutoPlugin {
+object LibrarySettings extends AutoPlugin {
   override def requires = BintrayPlugin
 
   override def projectSettings = Seq(
@@ -75,76 +76,67 @@ object Lib extends AutoPlugin {
 
 object Dependencies {
   val compilerPlugins: Seq[ModuleID] = Seq(
-    Library.macroParadise,
-    Library.kindProjector
+    Libraries.paradise,
+    Libraries.kindProjector
   ).map(compilerPlugin)
 
   val common: Seq[ModuleID] = Seq(
-    Library.scalaCompiler,
-    Library.scalaReflect,
-    Library.scalaXml,
-    Library.jodaTime,
-    Library.jodaConvert,
-    Library.cats,
-    Library.shapeless,
-    Library.findbugs
+    Libraries.scalaXml,
+    Libraries.jodaTime,
+    Libraries.jodaConvert,
+    Libraries.cats,
+    Libraries.shapeless,
+    Libraries.findbugs
   ) ++ compilerPlugins
 
   val play: Seq[ModuleID] = common ++ Seq(
-    Library.play,
-    Library.playCache,
-    Library.playWs,
-    Library.playTest % Test,
-    Library.scalatestplus_play % Test
-  )
-
-  val playAnorm: Seq[ModuleID] = play ++ Seq(
-    Library.anorm,
-    Library.playJdbc,
-    Library.h2 % Test,
-    Library.postgresql % Provided
+    Libraries.play,
+    Libraries.playCache,
+    Libraries.playWs,
+    Libraries.playTest % Test,
+    Libraries.scalatestplus_play % Test
   )
 
   val playSlick: Seq[ModuleID] = play ++ Seq(
-    Library.slick,
-    Library.slickHikariCP,
-    Library.playJdbcApi,
-    Library.h2 % Test
+    Libraries.slick,
+    Libraries.slickHikariCP,
+    Libraries.playJdbcApi,
+    Libraries.h2 % Test
   )
 
   val playSlickJdbcAdapter: Seq[ModuleID] = play ++ Seq(
-    Library.h2 % Test
+    Libraries.h2 % Test
   )
 
   val playUtil: Seq[ModuleID] = play
 
   val slickExt: Seq[ModuleID] = common ++ Seq(
-    Library.slick,
-    Library.logbackClassic,
-    Library.scalatest % Test
+    Libraries.slick,
+    Libraries.logbackClassic,
+    Libraries.scalatest % Test
   )
 
   val slickPg: Seq[ModuleID] = common ++ Seq(
-    Library.slick,
-    Library.slickPg,
-    Library.playJson,
-    Library.logbackClassic,
-    Library.h2 % Test,
-    Library.scalatest % Test,
-    Library.postgresql % Provided
+    Libraries.slick,
+    Libraries.slickPg,
+    Libraries.playJson,
+    Libraries.logbackClassic,
+    Libraries.h2 % Test,
+    Libraries.scalatest % Test,
+    Libraries.postgresql % Provided
   )
 
   val scalaUtil: Seq[ModuleID] = common ++ Seq(
-    Library.guava,
-    Library.jsoup,
-    Library.ficus,
-    Library.scalaGuice,
-    Library.htmlcleaner,
-    Library.commonsIO,
-    Library.commonsCodec,
-    Library.commonsLang3,
-    Library.logbackClassic,
-    Library.scalatest % Test
+    Libraries.guava,
+    Libraries.jsoup,
+    Libraries.ficus,
+    Libraries.scalaGuice,
+    Libraries.htmlcleaner,
+    Libraries.commonsIO,
+    Libraries.commonsCodec,
+    Libraries.commonsLang3,
+    Libraries.logbackClassic,
+    Libraries.scalatest % Test
   )
 
   val resolvers: Seq[Resolver] = DefaultOptions.resolvers(snapshot = true) ++ Seq(
@@ -154,92 +146,90 @@ object Dependencies {
   )
 }
 
-object Version {
-  val scala    = "2.11.8"
-  val scalaXml = "1.0.5"
+object Versions {
+  val scalaVersions = Seq("2.11.8", "2.12.1")
 
-  val macroParadise = "2.1.0"
-  val kindProjector = "0.9.0"
+  val scalaXml   = "1.0.6"
+  val scalaAsync = "0.9.6"
 
-  val cats      = "0.7.2"
+  val paradise      = "2.1.0"
+  val kindProjector = "0.9.3"
+
+  val cats      = "0.9.0"
   val shapeless = "2.3.2"
 
-  val jodaTime    = "2.9.4"
+  val jodaTime    = "2.9.7"
   val jodaConvert = "1.8.1"
 
   val play: String = _root_.play.core.PlayVersion.current
+  val playJson     = "2.6.0-M3"
 
-  val anorm = "2.5.2"
+  val slick   = "3.2.0-RC1"
+  val slickPg = "0.15.0-M4"
 
-  val slick   = "3.2.0-M1"
-  val slickPg = "0.15.0-M2"
+  val h2         = "1.4.193"
+  val postgresql = "9.4.1212"
 
-  val h2         = "1.4.192"
-  val postgresql = "9.4-1201-jdbc41"
-
-  val guava       = "19.0"
-  val jsoup       = "1.9.2"
-  val ficus       = "1.3.0"
+  val guava       = "21.0"
+  val jsoup       = "1.10.2"
+  val ficus       = "1.4.0"
   val scalaGuice  = "4.1.0"
-  val htmlcleaner = "2.16"
+  val htmlcleaner = "2.19"
 
   val commonsIO    = "2.5"
   val commonsCodec = "1.10"
-  val commonsLang3 = "3.4"
+  val commonsLang3 = "3.5"
 
-  val logbackClassic = "1.1.7"
+  val logbackClassic = "1.2.1"
 
-  val scalatest          = "3.0.0"
-  val scalatestplus_play = "1.5.1"
+  val scalatest          = "3.0.1"
+  val scalatestplus_play = "2.0.0-M2"
 
   val findbugs = "3.0.1"
 }
 
-object Library {
-  val scalaCompiler: ModuleID = "org.scala-lang" % "scala-compiler" % Version.scala
-  val scalaReflect : ModuleID = "org.scala-lang" % "scala-reflect" % Version.scala
-  val scalaXml     : ModuleID = "org.scala-lang.modules" %% "scala-xml" % Version.scalaXml
+object Libraries {
+  val scalaXml  : ModuleID = "org.scala-lang.modules" %% "scala-xml" % Versions.scalaXml
+  val scalaAsync: ModuleID = "org.scala-lang.modules" %% "scala-async" % Versions.scalaAsync
 
-  val macroParadise: ModuleID = "org.scalamacros" % "paradise" % Version.macroParadise cross CrossVersion.full
-  val kindProjector: ModuleID = "org.spire-math" %% "kind-projector" % Version.kindProjector
+  val paradise     : ModuleID = "org.scalamacros" % "paradise" % Versions.paradise cross CrossVersion.full
+  val kindProjector: ModuleID = "org.spire-math" %% "kind-projector" % Versions.kindProjector
 
-  val cats     : ModuleID = "org.typelevel" %% "cats" % Version.cats
-  val shapeless: ModuleID = "com.chuusai" %% "shapeless" % Version.shapeless
+  val cats     : ModuleID = "org.typelevel" %% "cats" % Versions.cats
+  val shapeless: ModuleID = "com.chuusai" %% "shapeless" % Versions.shapeless
 
-  val jodaTime   : ModuleID = "joda-time" % "joda-time" % Version.jodaTime
-  val jodaConvert: ModuleID = "org.joda" % "joda-convert" % Version.jodaConvert
+  val jodaTime   : ModuleID = "joda-time" % "joda-time" % Versions.jodaTime
+  val jodaConvert: ModuleID = "org.joda" % "joda-convert" % Versions.jodaConvert
 
-  val play       : ModuleID = "com.typesafe.play" %% "play" % Version.play
-  val playCache  : ModuleID = "com.typesafe.play" %% "play-cache" % Version.play
-  val playJdbcApi: ModuleID = "com.typesafe.play" %% "play-jdbc-api" % Version.play
-  val playJdbc   : ModuleID = "com.typesafe.play" %% "play-jdbc" % Version.play
-  val playJson   : ModuleID = "com.typesafe.play" %% "play-json" % Version.play
-  val playTest   : ModuleID = "com.typesafe.play" %% "play-test" % Version.play
-  val playWs     : ModuleID = "com.typesafe.play" %% "play-ws" % Version.play
+  val play       : ModuleID = "com.typesafe.play" %% "play" % Versions.play
+  val playCache  : ModuleID = "com.typesafe.play" %% "play-cache" % Versions.play
+  val playJdbcApi: ModuleID = "com.typesafe.play" %% "play-jdbc-api" % Versions.play
+  val playJdbc   : ModuleID = "com.typesafe.play" %% "play-jdbc" % Versions.play
+  val playJson   : ModuleID = "com.typesafe.play" %% "play-json" % Versions.playJson
+  val playTest   : ModuleID = "com.typesafe.play" %% "play-test" % Versions.play
+  val playWs     : ModuleID = "com.typesafe.play" %% "play-ws" % Versions.play
 
-  val anorm: ModuleID = "com.typesafe.play" %% "anorm" % Version.anorm
+  val slick        : ModuleID = "com.typesafe.slick" %% "slick" % Versions.slick
+  val slickHikariCP: ModuleID = "com.typesafe.slick" %% "slick-hikaricp" % Versions.slick
+  val slickPg      : ModuleID = "com.github.tminglei" %% "slick-pg" % Versions.slickPg
 
-  val slick        : ModuleID = "com.typesafe.slick" %% "slick" % Version.slick
-  val slickHikariCP: ModuleID = "com.typesafe.slick" %% "slick-hikaricp" % Version.slick
-  val slickPg      : ModuleID = "com.github.tminglei" %% "slick-pg" % Version.slickPg
+  val h2        : ModuleID = "com.h2database" % "h2" % Versions.h2
+  val postgresql: ModuleID = "org.postgresql" % "postgresql" % Versions.postgresql
 
-  val h2        : ModuleID = "com.h2database" % "h2" % Version.h2
-  val postgresql: ModuleID = "org.postgresql" % "postgresql" % Version.postgresql
+  val guava      : ModuleID = "com.google.guava" % "guava" % Versions.guava
+  val jsoup      : ModuleID = "org.jsoup" % "jsoup" % Versions.jsoup
+  val ficus      : ModuleID = "com.iheart" %% "ficus" % Versions.ficus
+  val scalaGuice : ModuleID = "net.codingwell" %% "scala-guice" % Versions.scalaGuice
+  val htmlcleaner: ModuleID = "net.sourceforge.htmlcleaner" % "htmlcleaner" % Versions.htmlcleaner
 
-  val guava      : ModuleID = "com.google.guava" % "guava" % Version.guava
-  val jsoup      : ModuleID = "org.jsoup" % "jsoup" % Version.jsoup
-  val ficus      : ModuleID = "com.iheart" %% "ficus" % Version.ficus
-  val scalaGuice : ModuleID = "net.codingwell" %% "scala-guice" % Version.scalaGuice
-  val htmlcleaner: ModuleID = "net.sourceforge.htmlcleaner" % "htmlcleaner" % Version.htmlcleaner
+  val commonsIO   : ModuleID = "commons-io" % "commons-io" % Versions.commonsIO
+  val commonsCodec: ModuleID = "commons-codec" % "commons-codec" % Versions.commonsCodec
+  val commonsLang3: ModuleID = "org.apache.commons" % "commons-lang3" % Versions.commonsLang3
 
-  val commonsIO   : ModuleID = "commons-io" % "commons-io" % Version.commonsIO
-  val commonsCodec: ModuleID = "commons-codec" % "commons-codec" % Version.commonsCodec
-  val commonsLang3: ModuleID = "org.apache.commons" % "commons-lang3" % Version.commonsLang3
+  val logbackClassic: ModuleID = "ch.qos.logback" % "logback-classic" % Versions.logbackClassic
 
-  val logbackClassic: ModuleID = "ch.qos.logback" % "logback-classic" % Version.logbackClassic
+  val scalatest         : ModuleID = "org.scalatest" %% "scalatest" % Versions.scalatest
+  val scalatestplus_play: ModuleID = "org.scalatestplus.play" %% "scalatestplus-play" % Versions.scalatestplus_play
 
-  val scalatest         : ModuleID = "org.scalatest" %% "scalatest" % Version.scalatest
-  val scalatestplus_play: ModuleID = "org.scalatestplus.play" %% "scalatestplus-play" % Version.scalatestplus_play
-
-  val findbugs: ModuleID = "com.google.code.findbugs" % "jsr305" % Version.findbugs
+  val findbugs: ModuleID = "com.google.code.findbugs" % "jsr305" % Versions.findbugs
 }

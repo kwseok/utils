@@ -5,7 +5,7 @@ import play.api.Application
 import scala.concurrent.Await
 import scala.concurrent.duration.Duration
 
-class ModelSpec extends PlaySpec with OneAppPerTest {
+class ModelSpec extends PlaySpec with guice.GuiceOneAppPerTest {
 
   import models._
 
@@ -36,11 +36,11 @@ class ModelSpec extends PlaySpec with OneAppPerTest {
 
     "be updated if needed" in {
       Await.result(computerDao.update(21l, Computer(
-        id           = Some(21),
-        name         = "The Macintosh",
-        introduced   = None,
+        id = Some(21),
+        name = "The Macintosh",
+        introduced = None,
         discontinued = None,
-        companyId    = Some(1)
+        companyId = Some(1)
       )), Duration.Inf)
 
       val macintosh = Await.result(computerDao.getById(21l), Duration.Inf)

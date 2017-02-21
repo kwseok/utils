@@ -6,17 +6,18 @@ import dao.{ComputerDao, CompanyDao}
 import models._
 import play.api.data.Form
 import play.api.data.Forms._
-import play.api.i18n.{I18nSupport, MessagesApi}
-import play.api.libs.concurrent.Execution.Implicits.defaultContext
-import play.api.mvc.{Controller, Action}
+import play.api.i18n.I18nSupport
+import play.api.mvc._
+
+import scala.concurrent.ExecutionContext
 
 /** Manage a database of computers. */
 @Singleton
 class Application @Inject()(
-  val messagesApi: MessagesApi,
   companyDao: CompanyDao,
-  computerDao: ComputerDao
-) extends Controller with I18nSupport {
+  computerDao: ComputerDao,
+  components: ControllerComponents
+)(implicit ec: ExecutionContext) extends AbstractController(components) with I18nSupport {
   import Computer.forms._
 
   /** This result directly redirect to the application home. */
@@ -45,9 +46,9 @@ class Application @Inject()(
    * @param filter Filter applied on computer names
    * @param sort   Column to be sorted
    */
-  def list(page: Int, filter: String, sort: Option[Sorts.Ordered]) = Action.async { implicit request =>
+  def list(page: Int, filter: String, sort: Option[Sorts.Ordered]): Action[AnyContent] = Action.async { implicit request =>
     val sortBy = sort.getOrElse(Sorts.Id.desc)
-    val computers = computerDao.list(page, size = 10, sortBy = sortBy, filter = "%" + filter + "%")
+    val computers = computerDao.list(page, sortBy = sortBy, filter = "%" + filter + "%")
     computers.map(cs => Ok(views.html.list(cs, filter, sortBy)))
   }
 
@@ -56,7 +57,7 @@ class Application @Inject()(
    *
    * @param id Id of the computer to edit
    */
-  def edit(id: Long) = Action.async {
+  def edit(id: Long): Action[AnyContent] = Action.async { implicit request =>
     val computerAndOptions = for {
       computer <- computerDao.findById(id)
       options <- companyDao.options
@@ -75,7 +76,7 @@ class Application @Inject()(
    *
    * @param id Id of the computer to edit
    */
-  def update(id: Long) = Action.async { implicit request =>
+  def update(id: Long): Action[AnyContent] = Action.async { implicit request =>
     computerForm.bindFromRequest.fold(
       formWithErrors => companyDao.options.map { options =>
         BadRequest(views.html.editForm(id, formWithErrors, options))
@@ -87,12 +88,12 @@ class Application @Inject()(
   }
 
   /** Display the 'new computer form'. */
-  def create = Action.async {
+  def create: Action[AnyContent] = Action.async { implicit request =>
     companyDao.options.map(options => Ok(views.html.createForm(computerForm, options)))
   }
 
   /** Handle the 'new computer form' submission. */
-  def save = Action.async { implicit request =>
+  def save: Action[AnyContent] = Action.async { implicit request =>
     computerForm.bindFromRequest.fold(
       formWithErrors => companyDao.options.map { options =>
         BadRequest(views.html.createForm(formWithErrors, options))
@@ -104,7 +105,7 @@ class Application @Inject()(
   }
 
   /** Handle computer deletion. */
-  def delete(id: Long) = Action.async {
+  def delete(id: Long): Action[AnyContent] = Action.async {
     computerDao.delete(id).map { _ =>
       Home.flashing("success" -> "Computer has been deleted")
     }

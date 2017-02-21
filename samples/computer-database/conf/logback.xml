@@ -3,10 +3,10 @@
     <conversionRule conversionWord="coloredLevel" converterClass="play.api.libs.logback.ColoredLevel" />
 
     <appender name="FILE" class="ch.qos.logback.core.rolling.RollingFileAppender">
-        <file>${log.home:-${application.home:-.}}/logs/application.${http.port:-default}.log</file>
+        <file>${log.home:-${application.home:-.}}/logs/computer-database-sample.${http.port:-default}.log</file>
 
         <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
-            <fileNamePattern>${log.home:-${application.home:-.}}/logs/application.${http.port:-default}.%d{yyyy-MM-dd}.log.zip</fileNamePattern>
+            <fileNamePattern>${log.home:-${application.home:-.}}/logs/computer-database-sample.${http.port:-default}.%d{yyyy-MM-dd}.log.zip</fileNamePattern>
             <maxHistory>10</maxHistory>
         </rollingPolicy>
 

@@ -1,7 +1,7 @@
 package models
 
 import com.github.stonexx.play.json.enum._
-import play.api.libs.json.Json
+import play.api.libs.json.{Format, Json, OFormat}
 
 case class Cat(
   name: String,
@@ -22,10 +22,10 @@ object Cat {
 
     implicit def toOption(value: Value): Option = value.asInstanceOf[Option]
 
-    implicit val jsonFormat = enumFormat(this)
+    implicit val jsonFormat: Format[Value] = enumFormat(this)
   }
 
-  implicit val jsonFormat = Json.format[Cat]
+  implicit val jsonFormat: OFormat[Cat] = Json.format[Cat]
 
   object forms {
     import com.github.stonexx.play.data.forms.enum._

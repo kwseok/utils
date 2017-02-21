@@ -1,9 +1,9 @@
 package com.github.stonexx.scala.util
 
 import java.nio.charset.Charset
-import java.util.{Calendar, Locale}
+import java.util.{Locale, Calendar}
 
-import org.htmlcleaner.{CleanerProperties, HtmlSerializer, PrettyHtmlSerializer}
+import org.htmlcleaner.{CleanerProperties, HtmlSerializer, CompactHtmlSerializer}
 import org.scalatest._
 
 class StringOpsSpec extends FlatSpec with Matchers {
@@ -175,13 +175,9 @@ class StringOpsSpec extends FlatSpec with Matchers {
   }
 
   "#htmlArrange" should "html을 정리" in {
-    val serializer: CleanerProperties => HtmlSerializer = new PrettyHtmlSerializer(_)
-    val html =
-      """<div>
-        |  <span id  =  test>테스트
-        |</div>
-      """.stripMargin
-    val arrangedHtml = "\n\t<div>\n\t\t<span id=\"test\">테스트</span>\n\t</div>\n"
+    val serializer: CleanerProperties => HtmlSerializer = new CompactHtmlSerializer(_)
+    val html = "<div><span id  =  test>테스트</div>"
+    val arrangedHtml = """<div><span id="test">테스트</span></div>"""
     html.htmlArrange("body", innerHtml = true, serializer = serializer) shouldBe arrangedHtml
   }
 

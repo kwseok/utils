@@ -16,7 +16,7 @@ class SlickJdbcAdapterModule extends Module {
   def bindings(env: Environment, config: Configuration): Seq[Binding[_]] = {
     val dbKey = config.underlying.getString(SlickModule.DbKeyConfig)
     val default = config.underlying.getString(SlickModule.DefaultDbName)
-    val dbs = config.getConfig(dbKey).getOrElse(Configuration.empty).subKeys
+    val dbs = config.getOptional[Configuration](dbKey).getOrElse(Configuration.empty).subKeys
     Seq(
       bind[DBApi].to[DBApiAdapter].in[Singleton]
     ) ++ namedDatabaseBindings(dbs) ++ defaultDatabaseBinding(default, dbs)
@@ -48,6 +48,7 @@ trait SlickJdbcAdapterComponents {
  * Inject provider for named databases.
  */
 class NamedDatabaseProvider(name: String) extends Provider[Database] {
+  //noinspection VarCouldBeVal
   @Inject private var dbApi: DBApi = _
 
   lazy val get: Database = dbApi.database(name)

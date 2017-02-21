@@ -1,7 +1,6 @@
 package com.github.stonexx.play
 
 import com.github.stonexx.scala.data.{Limit, Page}
-import org.joda.time.{Period, DateTime, LocalDate, LocalTime}
 import org.scalatestplus.play._
 import play.api.libs.json._
 import play.api.test._
@@ -112,39 +111,6 @@ class JsonSpec extends PlaySpec {
       Json.toJson(A.asc).as[Ordered] mustBe A.asc
       Json.toJson(B.desc.nullsFirst).as[Ordered] mustBe B.desc.nullsFirst
       Json.toJson(C.desc.nullsLast).as[Ordered] mustBe C.desc.nullsLast
-    }
-  }
-
-  "joda" should {
-    import util.JodaFormatters._
-    import json.joda._
-
-    "jodaDateReads" in {
-      val now = DateTime.now
-      val nowString = now.toString(isoDateTimeFormatter)
-      val reads = jodaDateReads(isoDateTimeFormatter)
-      JsString(nowString).as[DateTime](reads) mustBe now
-    }
-
-    "jodaLocalDateReads" in {
-      val today = LocalDate.now
-      val todayString = today.toString(isoDateFormatter)
-      val reads = jodaLocalDateReads(isoDateFormatter)
-      JsString(todayString).as[LocalDate](reads) mustBe today
-    }
-
-    "jodaLocalTimeReads" in {
-      val now = LocalTime.now
-      val nowString = now.toString(isoTimeFormatter)
-      val reads = jodaLocalTimeReads(isoTimeFormatter)
-      JsString(nowString).as[LocalTime](reads) mustBe now
-    }
-
-    "jodaPeriodReads" in {
-      val week = Period.weeks(1)
-      val weekString = week.toString(isoPeriodFormatter)
-      val reads = jodaPeriodReads(isoPeriodFormatter)
-      JsString(weekString).as[Period](reads) mustBe week
     }
   }
 

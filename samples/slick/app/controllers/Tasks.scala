@@ -4,17 +4,21 @@ import javax.inject._
 
 import dao.TaskDao
 import models._
-import play.api.i18n.{I18nSupport, MessagesApi}
-import play.api.libs.concurrent.Execution.Implicits._
+import play.api.i18n.I18nSupport
 import play.api.libs.json.Json
 import play.api.mvc._
 import play.api.routing.JavaScriptReverseRouter
 
+import scala.concurrent.ExecutionContext
+
 @Singleton
-class Tasks @Inject()(val messagesApi: MessagesApi, taskDao: TaskDao) extends Controller with I18nSupport {
+class Tasks @Inject()(
+  taskDao: TaskDao,
+  components: ControllerComponents
+)(implicit ec: ExecutionContext) extends AbstractController(components) with I18nSupport {
   import Task.forms._
 
-  def index = Action.async { implicit request =>
+  def index: Action[AnyContent] = Action.async { implicit request =>
     taskDao.list.map { tasks =>
       render {
         case Accepts.Html() => Ok(views.html.tasks(tasks, labelForm))
@@ -23,14 +27,14 @@ class Tasks @Inject()(val messagesApi: MessagesApi, taskDao: TaskDao) extends Co
     }
   }
 
-  def create = Action.async { implicit request =>
+  def create: Action[AnyContent] = Action.async { implicit request =>
     labelForm.bindFromRequest.fold(
       formWithErrors => taskDao.list.map { tasks => BadRequest(views.html.tasks(tasks, formWithErrors)) },
       label => taskDao.insert(label).map { _ => Redirect(routes.Tasks.index()) }
     )
   }
 
-  def delete(id: Long) = Action.async {
+  def delete(id: Long): Action[AnyContent] = Action.async {
     taskDao.delete(id).map { _ =>
       Redirect(routes.Tasks.index())
     }

@@ -3,13 +3,13 @@ import play.api.Application
 import play.api.test._
 import play.api.test.Helpers._
 
-class ApplicationSpec extends PlaySpec with OneAppPerTest {
+class ApplicationSpec extends PlaySpec with guice.GuiceOneAppPerTest {
 
   // -- Date helpers
 
-  def dateIs(date: java.util.Date, str: String) = new java.text.SimpleDateFormat("yyyy-MM-dd").format(date) == str
+  def dateIs(date: java.util.Date, str: String): Boolean = new java.text.SimpleDateFormat("yyyy-MM-dd").format(date) == str
 
-  // --
+  // -j-
 
   "Application" should {
     import models.Computer.forms._

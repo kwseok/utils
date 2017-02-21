@@ -1,11 +1,11 @@
 package slick
 
-import com.github.tminglei.slickpg._
 import com.github.stonexx.slick.pg._
+import com.github.tminglei.slickpg._
 
 trait MyPostgresProfile extends ExtPostgresProfile
   with PgArraySupportFixed
-  with PgDateSupportJoda
+  with PgDate2Support
   with PgHStoreSupport
   with PgPlayJsonSupport
   with PgEnumSupportFixed
@@ -19,7 +19,7 @@ trait MyPostgresProfile extends ExtPostgresProfile
 
   trait API extends super.API
     with FixedArrayImplicits with FixedArrayPlainImplicits
-    with DateTimeImplicits with JodaDateTimePlainImplicits
+    with DateTimeImplicits with Date2DateTimePlainImplicits
     with HStoreImplicits with SimpleHStorePlainImplicits
     with JsonImplicits with PlayJsonPlainImplicits
     with RangeImplicits with SimpleRangePlainImplicits

@@ -4,13 +4,12 @@ import javax.inject.{Inject, Singleton}
 
 import akka.stream.Materializer
 import play.api.Logger
-import play.api.libs.concurrent.Execution.Implicits.defaultContext
 import play.api.mvc._
 
-import scala.concurrent.Future
+import scala.concurrent.{Future, ExecutionContext}
 
 @Singleton
-class LoggingFilter @Inject()(implicit override val mat: Materializer) extends Filter {
+class LoggingFilter @Inject()(implicit override val mat: Materializer, ec: ExecutionContext) extends Filter {
   def apply(next: RequestHeader => Future[Result])(request: RequestHeader): Future[Result] = {
     val startTime = System.currentTimeMillis
     next(request).map { result =>

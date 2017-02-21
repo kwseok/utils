@@ -8,15 +8,16 @@ object MyWebSocketActor {
 
   case class InEvent(message: String)
   object InEvent {
-    implicit val inEventFormat = Json.format[InEvent]
+    implicit val inEventFormat: OFormat[InEvent] = Json.format[InEvent]
   }
 
   case class OutEvent(message: String)
   object OutEvent {
-    implicit val outEventFormat = Json.format[OutEvent]
+    implicit val outEventFormat: OFormat[OutEvent] = Json.format[OutEvent]
   }
 
-  implicit val messageFlowTransformer = MessageFlowTransformer.jsonMessageFlowTransformer[InEvent, OutEvent]
+  implicit val messageFlowTransformer: MessageFlowTransformer[InEvent, OutEvent] =
+    MessageFlowTransformer.jsonMessageFlowTransformer[InEvent, OutEvent]
 
   def props(out: ActorRef) = Props(classOf[MyWebSocketActor], out)
 }
@@ -24,7 +25,7 @@ object MyWebSocketActor {
 class MyWebSocketActor(out: ActorRef) extends Actor {
   import MyWebSocketActor._
 
-  def receive = {
+  def receive: Receive = {
     case msg: InEvent => out ! OutEvent("I received your message : " + msg)
   }
 }

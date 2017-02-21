@@ -1,7 +1,6 @@
 package com.github.stonexx.play
 
 import com.github.stonexx.scala.data.Limit
-import org.joda.time.{Period, DateTime, LocalDate, LocalTime}
 import org.scalatestplus.play._
 import play.api.data.Forms._
 import play.api.test._
@@ -58,43 +57,6 @@ class DataSpec extends PlaySpec {
         formatter.unbind("", C.desc.nullsLast) mustBe Map("" -> "-C:NL")
       }
     }
-
-    "joda" should {
-      import util.JodaFormatters._
-      import data.formats.joda._
-
-      "jodaDateTimeFormat" in {
-        val now = DateTime.now
-        val nowString = now.toString(isoDateTimeFormatter)
-        val formatter = jodaDateTimeFormat(isoDateTimeFormatter)
-        formatter.bind("now", Map("now" -> nowString)).right.get mustBe now
-        formatter.unbind("now", now) mustBe Map("now" -> nowString)
-      }
-
-      "jodaLocalDateFormat" in {
-        val today = LocalDate.now
-        val todayString = today.toString(isoDateFormatter)
-        val formatter = jodaLocalDateFormat(isoDateFormatter)
-        formatter.bind("today", Map("today" -> todayString)).right.get mustBe today
-        formatter.unbind("today", today) mustBe Map("today" -> todayString)
-      }
-
-      "jodaLocalTimeFormat" in {
-        val now = LocalTime.now
-        val nowString = now.toString(isoTimeFormatter)
-        val formatter = jodaLocalTimeFormat(isoTimeFormatter)
-        formatter.bind("now", Map("now" -> nowString)).right.get mustBe now
-        formatter.unbind("now", now) mustBe Map("now" -> nowString)
-      }
-
-      "jodaPeriodFormat" in {
-        val week = Period.weeks(1)
-        val weekString = week.toString(isoPeriodFormatter)
-        val formatter = jodaPeriodFormat(isoPeriodFormatter)
-        formatter.bind("week", Map("week" -> weekString)).right.get mustBe week
-        formatter.unbind("week", week) mustBe Map("week" -> weekString)
-      }
-    }
   }
 
   "forms" should {
@@ -144,43 +106,6 @@ class DataSpec extends PlaySpec {
         mapping.unbind(A.asc) mustBe Map("" -> "A")
         mapping.unbind(B.desc.nullsFirst) mustBe Map("" -> "-B:NF")
         mapping.unbind(C.desc.nullsLast) mustBe Map("" -> "-C:NL")
-      }
-    }
-
-    "joda" should {
-      import util.JodaFormatters._
-      import data.forms.joda._
-
-      "jodaDate" in {
-        val now = DateTime.now
-        val nowString = now.toString(isoDateTimeFormatter)
-        val mapping = jodaDate(isoDateTimeFormatter)
-        mapping.bind(Map("" -> nowString)).right.get mustBe now
-        mapping.unbind(now) mustBe Map("" -> nowString)
-      }
-
-      "jodaLocalDate" in {
-        val today = LocalDate.now
-        val todayString = today.toString(isoDateFormatter)
-        val mapping = jodaLocalDate(isoDateFormatter)
-        mapping.bind(Map("" -> todayString)).right.get mustBe today
-        mapping.unbind(today) mustBe Map("" -> todayString)
-      }
-
-      "jodaLocalTime" in {
-        val now = LocalTime.now
-        val nowString = now.toString(isoTimeFormatter)
-        val mapping = jodaLocalTime(isoTimeFormatter)
-        mapping.bind(Map("" -> nowString)).right.get mustBe now
-        mapping.unbind(now) mustBe Map("" -> nowString)
-      }
-
-      "jodaPeriod" in {
-        val week = Period.weeks(1)
-        val weekString = week.toString(isoPeriodFormatter)
-        val mapping = jodaPeriod(isoPeriodFormatter)
-        mapping.bind(Map("" -> weekString)).right.get mustBe week
-        mapping.unbind(week) mustBe Map("" -> weekString)
       }
     }
 

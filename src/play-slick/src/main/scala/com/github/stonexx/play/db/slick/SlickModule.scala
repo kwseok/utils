@@ -8,7 +8,7 @@ import play.api.inject.{Module, Binding, BindingKey, ApplicationLifecycle}
 import play.db.NamedDatabaseImpl
 
 import scala.concurrent.Future
-import scala.collection.JavaConversions._
+import scala.collection.JavaConverters._
 
 object SlickModule {
   final val DbKeyConfig   = "play.slick.db.config"
@@ -23,7 +23,7 @@ final class SlickModule extends Module {
   def bindings(env: Environment, config: Configuration): Seq[Binding[_]] = {
     val dbKey = config.underlying.getString(SlickModule.DbKeyConfig)
     val default = config.underlying.getString(SlickModule.DefaultDbName)
-    val dbs = config.getConfig(dbKey).getOrElse(Configuration.empty).subKeys
+    val dbs = config.getOptional[Configuration](dbKey).getOrElse(Configuration.empty).subKeys
     Seq(
       bind[SlickApi].toProvider[SlickApiProvider]
     ) ++ namedDatabaseBindings(dbs) ++ defaultDatabaseBinding(default, dbs)
@@ -65,7 +65,7 @@ class SlickApiProvider @Inject()(
     val configs = if (config.hasPath(dbKey)) {
       val obj = config.getObject(dbKey)
       val conf = obj.toConfig
-      obj.keySet.map { key => key -> conf.getConfig(key) }.toMap
+      obj.keySet.asScala.map { key => key -> conf.getConfig(key) }.toMap
     } else Map.empty[String, Config]
     val slickApi = new DefaultSlickApi(configs, environment)
     lifecycle.addStopHook { () => Future.successful(slickApi.shutdown()) }
@@ -80,5 +80,6 @@ class SlickApiProvider @Inject()(
 class NamedDatabaseProvider(name: String) extends Provider[Database] {
   //noinspection VarCouldBeVal
   @Inject private var slickApi: SlickApi = _
-  lazy            val get     : Database = slickApi.database(name)
+
+  lazy val get: Database = slickApi.database(name)
 }

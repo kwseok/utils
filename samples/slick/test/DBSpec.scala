@@ -1,19 +1,22 @@
 import com.github.stonexx.play.db.slick.DB
 import org.scalatestplus.play._
 import play.api.db.DBApi
-import play.api.libs.concurrent.Execution.Implicits.defaultContext
 import play.api.test._
 import play.api.test.Helpers._
+
+import scala.concurrent.ExecutionContext
 
 /**
  * test the kitty cat database
  */
-class DBSpec extends PlaySpec with OneAppPerTest {
+class DBSpec extends PlaySpec with guice.GuiceOneAppPerTest {
 
   "DB" should {
     "work as expected" in {
       import models._
       import slick.Tables._, profile.api._
+
+      implicit val ec = app.injector.instanceOf[ExecutionContext]
 
       val cats = TableQuery[Cats]
 

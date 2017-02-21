@@ -32,7 +32,7 @@ class TraversableOpsSpec extends FlatSpec with Matchers {
   }
 
   "#simple" should "test simple" in {
-    people.map(_.name).toSampleString(" 외 ", "건", "") shouldBe "tester1 외 8건"
+    people.map(_.name).toSampleString(" 외 ", "건") shouldBe "tester1 외 8건"
     List.empty[String].toSampleString(" 외 ", "건", "디폴트") shouldBe "디폴트"
   }
 }

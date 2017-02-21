@@ -2,12 +2,12 @@ package models
 
 import com.github.stonexx.play.mvc.binders.enum._
 import com.github.stonexx.scala.data.OrderedEnumeration
-import play.api.libs.json.Json
+import play.api.libs.json.{Json, OFormat}
 
 case class Task(id: Option[Long], label: Option[String])
 
 object Task {
-  implicit val jsonFormat = Json.format[Task]
+  implicit val jsonFormat: OFormat[Task] = Json.format[Task]
 
   object forms {
     import play.api.data._

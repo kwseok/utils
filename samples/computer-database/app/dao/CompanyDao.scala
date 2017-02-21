@@ -4,13 +4,13 @@ import javax.inject.{Inject, Singleton}
 
 import com.github.stonexx.play.db.slick.Database
 import models.Company
-import play.api.libs.concurrent.Execution.Implicits._
 
-import scala.concurrent.Future
+import scala.concurrent.{Future, ExecutionContext}
 
 @Singleton
-class CompanyDao @Inject()(db: Database) {
-  import slick.Tables._, profile.api._
+class CompanyDao @Inject()(db: Database)(implicit ec: ExecutionContext) {
+  import slick.Tables._
+  import profile.api._
 
   private val companies = TableQuery[Companies]
 

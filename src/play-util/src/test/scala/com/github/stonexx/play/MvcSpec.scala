@@ -1,6 +1,5 @@
 package com.github.stonexx.play
 
-import org.joda.time.{DateTime, LocalDate, LocalTime, Period}
 import org.scalatestplus.play._
 import play.api.test._
 import play.api.test.Helpers._
@@ -140,75 +139,6 @@ class MvcSpec extends PlaySpec {
         queryStringBindable.unbind("a", A.desc) mustBe "a=-A"
         queryStringBindable.unbind("b", B.desc) mustBe "b=-B"
         queryStringBindable.unbind("c", C.desc.nullsLast) mustBe "c=-C:NL"
-      }
-    }
-
-    "joda" should {
-      import util.JodaFormatters._
-      import mvc.binders.joda._
-
-      "pathBindableJodaDateTime" in {
-        val now = DateTime.now
-        val nowString = now.toString(isoDateTimeFormatter)
-        val bindable = pathBindableJodaDateTime(isoDateTimeFormatter)
-        bindable.bind("now", nowString).right.get mustBe now
-        bindable.unbind("now", now) mustBe nowString
-      }
-
-      "pathBindableJodaLocalDate" in {
-        val today = LocalDate.now
-        val todayString = today.toString(isoDateFormatter)
-        val bindable = pathBindableJodaLocalDate(isoDateFormatter)
-        bindable.bind("today", todayString).right.get mustBe today
-        bindable.unbind("today", today) mustBe todayString
-      }
-
-      "pathBindableJodaLocalTime" in {
-        val now = LocalTime.now
-        val nowString = now.toString(isoTimeFormatter)
-        val bindable = pathBindableJodaLocalTime(isoTimeFormatter)
-        bindable.bind("now", nowString).right.get mustBe now
-        bindable.unbind("now", now) mustBe nowString
-      }
-
-      "pathBindableJodaPeriod" in {
-        val week = Period.weeks(1)
-        val weekString = week.toString(isoPeriodFormatter)
-        val bindable = pathBindableJodaPeriod(isoPeriodFormatter)
-        bindable.bind("week", weekString).right.get mustBe week
-        bindable.unbind("week", week) mustBe weekString
-      }
-
-      "queryStringBindableJodaDateTime" in {
-        val now = DateTime.now
-        val nowString = now.toString(isoDateTimeFormatter)
-        val bindable = queryStringBindableJodaDateTime(isoDateTimeFormatter)
-        bindable.bind("now", Map("now" -> Seq(nowString))).get.right.get mustBe now
-        bindable.unbind("now", now) mustBe "now=" + nowString
-      }
-
-      "queryStringBindableJodaLocalDate" in {
-        val today = LocalDate.now
-        val todayString = today.toString(isoDateFormatter)
-        val bindable = queryStringBindableJodaLocalDate(isoDateFormatter)
-        bindable.bind("today", Map("today" -> Seq(todayString))).get.right.get mustBe today
-        bindable.unbind("today", today) mustBe "today=" + todayString
-      }
-
-      "queryStringBindableJodaLocalTime" in {
-        val now = LocalTime.now
-        val nowString = now.toString(isoTimeFormatter)
-        val bindable = queryStringBindableJodaLocalTime(isoTimeFormatter)
-        bindable.bind("now", Map("now" -> Seq(nowString))).get.right.get mustBe now
-        bindable.unbind("now", now) mustBe "now=" + nowString
-      }
-
-      "queryStringBindableJodaPeriod" in {
-        val week = Period.weeks(1)
-        val weekString = week.toString(isoPeriodFormatter)
-        val bindable = queryStringBindableJodaPeriod(isoPeriodFormatter)
-        bindable.bind("week", Map("week" -> Seq(weekString))).get.right.get mustBe week
-        bindable.unbind("week", week) mustBe "week=" + weekString
       }
     }
 

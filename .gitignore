@@ -13,6 +13,11 @@ tmp/
 .idea_modules/
 *.iml
 
+node_modules/
+yarn.lock
+
+samples/slick/public/components/
+
 .classpath
 .project
 .settings
