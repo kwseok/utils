@@ -26,7 +26,8 @@ trait PgArraySupportFixed extends PgArraySupport { self: PostgresProfile =>
   trait FixedArrayImplicits
     extends FixedArrayCodeGenSupport
       with SimpleArrayCodeGenSupport
-      with LowPrioritySimpleArrayImplicits
+      with LowPrioritySimpleArrayJdbcTypeImplicits
+      with LowPriorityAdvancedArrayJdbcTypeImplicits
       with array.ExtensionMethodConversions {
 
     /** for type/name, @see [[org.postgresql.core.Oid]] and [[org.postgresql.jdbc.TypeInfoCache]] */
@@ -48,7 +49,7 @@ trait PgArraySupportFixed extends PgArraySupport { self: PostgresProfile =>
       new ArrayColumnExtensionMethods[B1, C, Option[C[B1]]](c)
   }
 
-  trait LowPrioritySimpleArrayImplicits extends LowPriorityAdvancedArrayImplicits {
+  trait LowPrioritySimpleArrayJdbcTypeImplicits {
     private val simpleArrayTypeCache = CacheBuilder.newBuilder.maximumSize(500).build[ru.TypeTag[_], JdbcType[_]]
 
     implicit def simpleArrayJdbcType[T, C[X] <: Seq[X]](
@@ -60,7 +61,7 @@ trait PgArraySupportFixed extends PgArraySupport { self: PostgresProfile =>
     }
   }
 
-  trait LowPriorityAdvancedArrayImplicits {
+  trait LowPriorityAdvancedArrayJdbcTypeImplicits {
     private val advancedArrayTypeCache = CacheBuilder.newBuilder.maximumSize(500).build[ru.TypeTag[_], JdbcType[_]]
 
     implicit def advancedArrayJdbcType[T, C[X] <: Seq[X]](
