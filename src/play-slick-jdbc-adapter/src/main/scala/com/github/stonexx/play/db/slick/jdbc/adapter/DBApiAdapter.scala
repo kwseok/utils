@@ -1,6 +1,6 @@
 package com.github.stonexx.play.db.slick.jdbc.adapter
 
-import java.sql.{Connection, SQLException}
+import java.sql.Connection
 import javax.inject.Inject
 import javax.sql.DataSource
 
@@ -9,6 +9,8 @@ import play.api.Logger
 import play.api.db.{DBApi, Database => PlayDatabase}
 import slick.jdbc.hikaricp.HikariCPJdbcDataSource
 import slick.jdbc.DataSourceJdbcDataSource
+
+import scala.util.control.ControlThrowable
 
 class DBApiAdapter @Inject()(slickApi: SlickApi) extends DBApi {
   private lazy val databasesByName: Map[String, PlayDatabase] = slickApi.databases.map {
@@ -40,36 +42,46 @@ object DBApiAdapter {
 
     lazy val url: String = withConnection(_.getMetaData.getURL)
 
-    def getConnection(): Connection = db.source.createConnection()
+    // connection methods
+
+    def getConnection(): Connection = {
+      getConnection(autocommit = true)
+    }
 
     def getConnection(autocommit: Boolean): Connection = {
-      val conn = getConnection()
-      conn.setAutoCommit(autocommit)
-      conn
+      val connection = db.source.createConnection()
+      connection.setAutoCommit(autocommit)
+      connection
     }
 
     def withConnection[A](block: Connection => A): A = {
-      val conn = getConnection()
-      try block(conn)
-      finally {
-        try conn.close() catch {case _: SQLException =>}
+      withConnection(autocommit = true)(block)
+    }
+
+    def withConnection[A](autocommit: Boolean)(block: Connection => A): A = {
+      val connection = getConnection(autocommit)
+      try {
+        block(connection)
+      } finally {
+        connection.close()
       }
     }
 
-    def withConnection[A](autocommit: Boolean)(block: Connection => A): A = withConnection { conn =>
-      conn.setAutoCommit(autocommit)
-      block(conn)
-    }
-
     def withTransaction[A](block: Connection => A): A = {
-      val conn = getConnection()
-      var done = false
-      try {
-        val res = block(conn)
-        conn.commit()
-        done = true
-        res
-      } finally if (!done) conn.rollback()
+      withConnection(autocommit = false) { connection =>
+        try {
+          val r = block(connection)
+          connection.commit()
+          r
+        } catch {
+          case e: ControlThrowable =>
+            connection.commit()
+            throw e
+          case e: Throwable =>
+            connection.rollback()
+            throw e
+        }
+      }
     }
 
     def shutdown(): Unit = {
