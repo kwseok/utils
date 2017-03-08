@@ -11,7 +11,26 @@ abstract class OrderedEnumeration extends Enumeration { self =>
   class Ordered(val values: IndexedSeq[(Value, Ordering)]) {
     def +(other: Ordered): Ordered = new Ordered(values ++ other.values)
 
+    def -(value: Value): Ordered = new Ordered(values.filterNot(_._1 == value))
+
     def unary_! = new Ordered(values = values.map { case (v, o) => v -> o.reverse })
+
+    def has(value: Value): Boolean = values.exists(_._1 == value)
+
+    def has(value: Value, dir: Ordering.Direction): Boolean =
+      values.exists(v => v._1 == value && v._2.direction == dir)
+
+    def has(value: Value, ord: Ordering): Boolean =
+      values.exists(v => v._1 == value && v._2 == ord)
+
+    def isAsc(value: Value): Boolean = has(value, Ordering.Asc)
+
+    def isDesc(value: Value): Boolean = has(value, Ordering.Desc)
+
+    def reverse(value: Value): Ordered = new Ordered(values.map {
+      case (`value`, ord) => (value, ord.reverse)
+      case v => v
+    })
 
     override def equals(other: Any): Boolean = other match {
       case that: Ordered => values == that.values

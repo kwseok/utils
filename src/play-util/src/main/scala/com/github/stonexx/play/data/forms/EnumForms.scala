@@ -1,7 +1,7 @@
 package com.github.stonexx.play.data
 package forms
 
-import com.github.stonexx.scala.data.{SortableEnumeration, OrderedEnumeration}
+import com.github.stonexx.scala.data.OrderedEnumeration
 import play.api.data.{Mapping, Forms}
 
 trait EnumForms {
@@ -36,19 +36,6 @@ trait EnumForms {
    * }}}
    */
   @inline def enum[E <: Enumeration](enum: E): Mapping[E#Value] = enumName(enum)
-
-  /**
-   * Constructs a simple mapping for a text field (mapped as `com.github.stonexx.scala.data.SortableEnumeration`)
-   *
-   * For example:
-   * {{{
-   *   object Sorts extends com.github.stonexx.scala.data.SortableEnumeration {
-   *     ...
-   *   }
-   *   Form("sort" -> enumSort(Sorts))
-   * }}}
-   */
-  def enumSort[E <: SortableEnumeration](enum: E): Mapping[E#Ordered] = Forms.of(enumSortFormat(enum))
 
   /**
    * Constructs a simple mapping for a text field (mapped as `com.github.stonexx.scala.data.OrderedEnumeration`)

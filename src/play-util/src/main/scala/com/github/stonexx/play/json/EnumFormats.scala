@@ -1,12 +1,11 @@
 package com.github.stonexx.play.json
 
-import com.github.stonexx.scala.data.{SortableEnumeration, OrderedEnumeration}
+import com.github.stonexx.scala.data.OrderedEnumeration
 import play.api.libs.json._
 
 trait EnumFormats
   extends EnumIdFormats
     with EnumNameFormats
-    with EnumSortFormats
     with EnumOrderedFormats {
 
   // aliases
@@ -56,27 +55,6 @@ trait EnumNameFormats {
   }
 
   def enumNameFormat[E <: Enumeration](enum: E): Format[E#Value] = Format(enumNameReads(enum), enumNameWrites)
-}
-
-trait EnumSortFormats {
-
-  def enumSortReads[E <: SortableEnumeration](enum: E): Reads[E#Ordered] = new Reads[E#Ordered] {
-    def reads(json: JsValue): JsResult[E#Ordered] = json match {
-      case JsString(s) => try JsSuccess(enum.Ordered.parse(s))
-      catch {
-        case _: NoSuchElementException =>
-          JsError(s"SortableEnumeration expected of type: '${enum.getClass}'," +
-            s" but it does not appear to contain the value: '$s'")
-      }
-      case _ => JsError("String value expected")
-    }
-  }
-
-  def enumSortWrites[E <: SortableEnumeration]: Writes[E#Ordered] = new Writes[E#Ordered] {
-    def writes(v: E#Ordered): JsValue = JsString(v.toString)
-  }
-
-  def enumSortFormat[E <: SortableEnumeration](enum: E): Format[E#Ordered] = Format(enumSortReads(enum), enumSortWrites)
 }
 
 trait EnumOrderedFormats {

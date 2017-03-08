@@ -55,49 +55,6 @@ class MvcSpec extends PlaySpec {
         queryStringBindable.unbind("c", C) mustBe "c=C"
       }
 
-      "enumSortPathBindable" in {
-        import SortEnum._
-        val pathBindable = enumSortPathBindable(SortEnum)
-        pathBindable.bind("", "A").right.get mustBe A.asc
-        pathBindable.bind("", "B").right.get mustBe B.asc
-        pathBindable.bind("", "C").right.get mustBe C.asc
-        pathBindable.bind("", "+A").right.get mustBe A.asc
-        pathBindable.bind("", "+B").right.get mustBe B.asc
-        pathBindable.bind("", "+C").right.get mustBe C.asc
-        pathBindable.bind("", "-A").right.get mustBe A.desc
-        pathBindable.bind("", "-B").right.get mustBe B.desc
-        pathBindable.bind("", "-C").right.get mustBe C.desc
-        pathBindable.unbind("", A.asc) mustBe "A"
-        pathBindable.unbind("", B.asc) mustBe "B"
-        pathBindable.unbind("", C.asc) mustBe "C"
-        pathBindable.unbind("", A.desc) mustBe "-A"
-        pathBindable.unbind("", B.desc) mustBe "-B"
-        pathBindable.unbind("", C.desc) mustBe "-C"
-      }
-
-      "enumSortQueryStringBindable" in {
-        import SortEnum._
-        val params1 = Map("a" -> Seq("A"), "b" -> Seq("B"), "c" -> Seq("C"))
-        val params2 = Map("a" -> Seq("+A"), "b" -> Seq("+B"), "c" -> Seq("+C"))
-        val params3 = Map("a" -> Seq("-A"), "b" -> Seq("-B"), "c" -> Seq("-C"))
-        val queryStringBindable = enumSortQueryStringBindable(SortEnum)
-        queryStringBindable.bind("a", params1).get.right.get mustBe A.asc
-        queryStringBindable.bind("b", params1).get.right.get mustBe B.asc
-        queryStringBindable.bind("c", params1).get.right.get mustBe C.asc
-        queryStringBindable.bind("a", params2).get.right.get mustBe A.asc
-        queryStringBindable.bind("b", params2).get.right.get mustBe B.asc
-        queryStringBindable.bind("c", params2).get.right.get mustBe C.asc
-        queryStringBindable.bind("a", params3).get.right.get mustBe A.desc
-        queryStringBindable.bind("b", params3).get.right.get mustBe B.desc
-        queryStringBindable.bind("c", params3).get.right.get mustBe C.desc
-        queryStringBindable.unbind("a", A.asc) mustBe "a=" + A.asc.toString
-        queryStringBindable.unbind("b", B.asc) mustBe "b=" + B.asc.toString
-        queryStringBindable.unbind("c", C.asc) mustBe "c=" + C.asc.toString
-        queryStringBindable.unbind("a", A.desc) mustBe "a=" + A.desc.toString
-        queryStringBindable.unbind("b", B.desc) mustBe "b=" + B.desc.toString
-        queryStringBindable.unbind("c", C.desc) mustBe "c=" + C.desc.toString
-      }
-
       "enumOrderedPathBindable" in {
         import OrderedEnum._
         val pathBindable = enumOrderedPathBindable(OrderedEnum)

@@ -1,25 +1,25 @@
 @import com.github.stonexx.scala.data.Page
-@import models.Computer.forms._, Sorts.Ordered
+@import models.Computer.forms.Sorts
 
-@(currentPage: Page[(Computer, Option[Company])], currentFilter: String, currentSort: Ordered)(implicit request: RequestHeader, messages: Messages)
+@(currentPage: Page[(Computer, Option[Company])], currentFilter: String, currentSort: Sorts.Ordered)(implicit request: RequestHeader, messages: Messages)
 
 @import request.flash
 
 @****************************************
 * Helper generating navigation links *
 ****************************************@
-@link(newPage: Int, newSort: Option[Sorts.Value] = None) = @{
-  routes.Application.list(newPage, currentFilter, newSort.map { sort =>
-    if(sort == currentSort.value) currentSort.reverse else sort.asc
+@link(newPage: Int, newSortValue: Option[Sorts.Value] = None) = @{
+  routes.Application.list(newPage, currentFilter, newSortValue.map { sortValue =>
+    if(currentSort.has(sortValue)) currentSort.reverse(sortValue) else currentSort - sortValue
   }.orElse(Some(currentSort)))
 }
 
 @**********************************
 * Helper generating table headers *
 ***********************************@
-@header(sort: Sorts.Value, title: String) = {
-  <th class="col@sort.id header @if(sort == currentSort.value) @{if(currentSort.desc) "headerSortDown" else "headerSortUp"}">
-    <a href="@link(1, Some(sort))">@title</a>
+@header(sortValue: Sorts.Value, title: String) = {
+  <th class="col@sortValue.id header @if(currentSort.has(sortValue)) @{if(currentSort.isAsc(sortValue)) "headerSortUp" else "headerSortDown"}">
+    <a href="@link(1, Some(sortValue))">@title</a>
   </th>
 }
 

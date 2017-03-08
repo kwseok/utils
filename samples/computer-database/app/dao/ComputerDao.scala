@@ -5,7 +5,6 @@ import javax.inject.{Inject, Singleton}
 import com.github.stonexx.play.db.slick.Database
 import com.github.stonexx.scala.data.Page
 import models.{Computer, Company}
-import slick.ast.TypedType
 
 import scala.concurrent.{Future, ExecutionContext}
 
@@ -32,16 +31,12 @@ class ComputerDao @Inject()(db: Database)(implicit ec: ExecutionContext) {
       if computer.name.toLowerCase like filter.toLowerCase
     } yield (computer, company)
 
-    def ordered[T: TypedType](column: ((Computers, Rep[Option[Companies]])) => Rep[T])(desc: Boolean) =
-      column andThen (c => (if (desc) c.desc else c.asc).nullsLast)
-
-    def sorting(q: computersWithCompaniesQuery.type) = sortBy match {
-      case S.Ordered(S.Id, desc) => q.sortBy(ordered(_._1.id)(desc))
-      case S.Ordered(S.Name, desc) => q.sortBy(ordered(_._1.name)(desc))
-      case S.Ordered(S.Introduced, desc) => q.sortBy(ordered(_._1.introduced)(desc))
-      case S.Ordered(S.Discontinued, desc) => q.sortBy(ordered(_._1.discontinued)(desc))
-      case S.Ordered(S.Company, desc) => q.sortBy(ordered(_._2.map(_.name))(desc))
-      case _ => ???
+    def sorting(q: computersWithCompaniesQuery.type) = q.sortByOrdered(sortBy) {
+      case S.Id => _._1.id
+      case S.Name => _._1.name
+      case S.Introduced => _._1.introduced
+      case S.Discontinued => _._1.discontinued
+      case S.Company => _._2.map(_.name)
     }
 
     db.run(for {

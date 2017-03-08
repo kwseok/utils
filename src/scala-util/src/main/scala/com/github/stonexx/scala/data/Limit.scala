@@ -8,5 +8,6 @@ case class Limit[A](from: Option[A] = None, to: Option[A] = None) {
     this.from.map(from).toList ::: this.to.map(to).toList
 
   def apply[B](from: A => B, to: A => B, eq: A => B): Seq[B] =
-    if (this.from == this.to) this.from.map(eq).toList else apply(from, to)
+    if (this.from == this.to) this.to.map(eq).toList
+    else apply(from, to)
 }

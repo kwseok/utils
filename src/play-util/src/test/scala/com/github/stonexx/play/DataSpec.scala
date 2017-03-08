@@ -35,17 +35,6 @@ class DataSpec extends PlaySpec {
         formatter.unbind("", C) mustBe Map("" -> "C")
       }
 
-      "enumSortFormat" in {
-        import SortEnum._
-        val formatter = enumSortFormat(SortEnum)
-        formatter.bind("", Map("" -> "A")).right.get mustBe A.asc
-        formatter.bind("", Map("" -> "-B")).right.get mustBe B.desc
-        formatter.bind("", Map("" -> "-C")).right.get mustBe C.desc
-        formatter.unbind("", A.asc) mustBe Map("" -> "A")
-        formatter.unbind("", B.desc) mustBe Map("" -> "-B")
-        formatter.unbind("", C.desc) mustBe Map("" -> "-C")
-      }
-
       "enumOrderedFormat" in {
         import OrderedEnum._
         val formatter = enumOrderedFormat(OrderedEnum)
@@ -84,17 +73,6 @@ class DataSpec extends PlaySpec {
         mapping.unbind(A) mustBe Map("" -> "A")
         mapping.unbind(B) mustBe Map("" -> "B")
         mapping.unbind(C) mustBe Map("" -> "C")
-      }
-
-      "enumSort" in {
-        import SortEnum._
-        val mapping = enumSort(SortEnum)
-        mapping.bind(Map("" -> "A")).right.get mustBe A.asc
-        mapping.bind(Map("" -> "-B")).right.get mustBe B.desc
-        mapping.bind(Map("" -> "-C")).right.get mustBe C.desc
-        mapping.unbind(A.asc) mustBe Map("" -> "A")
-        mapping.unbind(B.desc) mustBe Map("" -> "-B")
-        mapping.unbind(C.desc) mustBe Map("" -> "-C")
       }
 
       "enumOrdered" in {

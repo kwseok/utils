@@ -65,30 +65,6 @@ class JsonSpec extends PlaySpec {
       Json.toJson(C) mustBe JsString("C")
     }
 
-    "enumSortReads" in {
-      import SortEnum._
-      implicit val jsonReads = enumSortReads(SortEnum)
-      JsString("A").as[Ordered] mustBe A.asc
-      JsString("-B").as[Ordered] mustBe B.desc
-      JsString("-C").as[Ordered] mustBe C.desc
-    }
-
-    "enumSortWrites" in {
-      import SortEnum._
-      implicit val jsonWrites = enumSortWrites[SortEnum.type]
-      Json.toJson(A.asc) mustBe JsString("A")
-      Json.toJson(B.desc) mustBe JsString("-B")
-      Json.toJson(C.desc) mustBe JsString("-C")
-    }
-
-    "enumSortFormat" in {
-      import SortEnum._
-      implicit val jsonFormat = enumSortFormat(SortEnum)
-      Json.toJson(A.asc).as[Ordered] mustBe A.asc
-      Json.toJson(B.desc).as[Ordered] mustBe B.desc
-      Json.toJson(C.desc).as[Ordered] mustBe C.desc
-    }
-
     "enumOrderedReads" in {
       import OrderedEnum._
       implicit val jsonReads = enumOrderedReads(OrderedEnum)

@@ -1,17 +1,10 @@
 package com.github.stonexx
 
 package object play {
-  import com.github.stonexx.scala.data.{SortableEnumeration, OrderedEnumeration}
+  import com.github.stonexx.scala.data.OrderedEnumeration
 
   object TestEnum extends Enumeration {
     type TestEnum = Value
-    val A = Value
-    val B = Value
-    val C = Value
-  }
-
-  object SortEnum extends SortableEnumeration {
-    type SortEnum = Value
     val A = Value
     val B = Value
     val C = Value
