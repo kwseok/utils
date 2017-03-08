@@ -1,4 +1,4 @@
-# Libraries for Scala, Slick & Play [![Build Status](https://travis-ci.org/stonexx/lib.svg?branch=master)](https://travis-ci.org/stonexx/lib)
+# Utilities for Scala, Slick & Play [![Build Status](https://travis-ci.org/stonexx/lib.svg?branch=master)](https://travis-ci.org/stonexx/lib)
 
 - [play-slick](https://github.com/stonexx/lib/tree/master/src/play-slick)
 - [play-slick-jdbc-adapter](https://github.com/stonexx/lib/tree/master/src/play-slick-jdbc-adapter)
