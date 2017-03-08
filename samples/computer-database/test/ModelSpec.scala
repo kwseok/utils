@@ -29,7 +29,7 @@ class ModelSpec extends PlaySpec with guice.GuiceOneAppPerTest {
     }
 
     "be listed along its companies" in {
-      val computers = Await.result(computerDao.list(1, 10), Duration.Inf)
+      val computers = Await.result(computerDao.list(), Duration.Inf)
       computers.total must equal(574)
       computers.items must have length 10
     }

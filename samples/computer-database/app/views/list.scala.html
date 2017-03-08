@@ -62,13 +62,13 @@
           <tr>
             <td><a href="@routes.Application.edit(computer.id.get)">@computer.name</a></td>
             <td>
-            @computer.introduced.map(_.format("dd MMM yyyy")).getOrElse {<em>-</em>}
+              @computer.introduced.map(_.format("dd MMM yyyy")).getOrElse {<em>-</em>}
             </td>
             <td>
-            @computer.discontinued.map(_.format("dd MMM yyyy")).getOrElse {<em>-</em>}
+              @computer.discontinued.map(_.format("dd MMM yyyy")).getOrElse {<em>-</em>}
             </td>
             <td>
-            @company.map(_.name)
+              @company.map(_.name)
             </td>
           </tr>
         }

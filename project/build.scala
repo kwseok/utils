@@ -164,7 +164,7 @@ object Versions {
   val play: String = _root_.play.core.PlayVersion.current
   val playJson     = "2.6.0-M3"
 
-  val slick   = "3.2.0-RC1"
+  val slick   = "3.2.0"
   val slickPg = "0.15.0-M4"
 
   val h2         = "1.4.193"
