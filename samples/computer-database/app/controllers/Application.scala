@@ -8,6 +8,7 @@ import play.api.data.Form
 import play.api.data.Forms._
 import play.api.i18n.I18nSupport
 import play.api.mvc._
+import play.filters.csrf._
 
 import scala.concurrent.ExecutionContext
 
@@ -16,8 +17,14 @@ import scala.concurrent.ExecutionContext
 class Application @Inject()(
   companyDao: CompanyDao,
   computerDao: ComputerDao,
-  components: ControllerComponents
-)(implicit ec: ExecutionContext) extends AbstractController(components) with I18nSupport {
+  components: ControllerComponents,
+  csrfAddToken: CSRFAddToken,
+  csrfCheck: CSRFCheck
+)(
+  implicit
+  assets: AssetsFinder,
+  ec: ExecutionContext
+) extends AbstractController(components) with I18nSupport {
   import Computer.forms._
 
   /** This result directly redirect to the application home. */
@@ -57,16 +64,18 @@ class Application @Inject()(
    *
    * @param id Id of the computer to edit
    */
-  def edit(id: Long): Action[AnyContent] = Action.async { implicit request =>
-    val computerAndOptions = for {
-      computer <- computerDao.findById(id)
-      options <- companyDao.options
-    } yield (computer, options)
+  def edit(id: Long): Action[AnyContent] = csrfAddToken {
+    Action.async { implicit request =>
+      val computerAndOptions = for {
+        computer <- computerDao.findById(id)
+        options <- companyDao.options
+      } yield (computer, options)
 
-    computerAndOptions.map {
-      case (computer, options) => computer match {
-        case Some(c) => Ok(views.html.editForm(id, computerForm.fill(c), options))
-        case None => NotFound
+      computerAndOptions.map {
+        case (computer, options) => computer match {
+          case Some(c) => Ok(views.html.editForm(id, computerForm.fill(c), options))
+          case None => NotFound
+        }
       }
     }
   }
@@ -76,38 +85,46 @@ class Application @Inject()(
    *
    * @param id Id of the computer to edit
    */
-  def update(id: Long): Action[AnyContent] = Action.async { implicit request =>
-    computerForm.bindFromRequest.fold(
-      formWithErrors => companyDao.options.map { options =>
-        BadRequest(views.html.editForm(id, formWithErrors, options))
-      },
-      computer => computerDao.update(id, computer.copy(id = Some(id))).map { _ =>
-        Home.flashing("success" -> "Computer %s has been updated".format(computer.name))
-      }
-    )
+  def update(id: Long): Action[AnyContent] = csrfCheck {
+    Action.async { implicit request =>
+      computerForm.bindFromRequest.fold(
+        formWithErrors => companyDao.options.map { options =>
+          BadRequest(views.html.editForm(id, formWithErrors, options))
+        },
+        computer => computerDao.update(id, computer.copy(id = Some(id))).map { _ =>
+          Home.flashing("success" -> "Computer %s has been updated".format(computer.name))
+        }
+      )
+    }
   }
 
   /** Display the 'new computer form'. */
-  def create: Action[AnyContent] = Action.async { implicit request =>
-    companyDao.options.map(options => Ok(views.html.createForm(computerForm, options)))
+  def create: Action[AnyContent] = csrfAddToken {
+    Action.async { implicit request =>
+      companyDao.options.map(options => Ok(views.html.createForm(computerForm, options)))
+    }
   }
 
   /** Handle the 'new computer form' submission. */
-  def save: Action[AnyContent] = Action.async { implicit request =>
-    computerForm.bindFromRequest.fold(
-      formWithErrors => companyDao.options.map { options =>
-        BadRequest(views.html.createForm(formWithErrors, options))
-      },
-      computer => computerDao.insert(computer).map { _ =>
-        Home.flashing("success" -> "Computer %s has been created".format(computer.name))
-      }
-    )
+  def save: Action[AnyContent] = csrfCheck {
+    Action.async { implicit request =>
+      computerForm.bindFromRequest.fold(
+        formWithErrors => companyDao.options.map { options =>
+          BadRequest(views.html.createForm(formWithErrors, options))
+        },
+        computer => computerDao.insert(computer).map { _ =>
+          Home.flashing("success" -> "Computer %s has been created".format(computer.name))
+        }
+      )
+    }
   }
 
   /** Handle computer deletion. */
-  def delete(id: Long): Action[AnyContent] = Action.async {
-    computerDao.delete(id).map { _ =>
-      Home.flashing("success" -> "Computer has been deleted")
+  def delete(id: Long): Action[AnyContent] = csrfCheck {
+    Action.async {
+      computerDao.delete(id).map { _ =>
+        Home.flashing("success" -> "Computer has been deleted")
+      }
     }
   }
 }

@@ -17,6 +17,8 @@ trait ComputersComponent { this: HasSlickProfile[ExtJdbcProfile] with CommonComp
     def discontinued: Rep[Option[Date]] = column[Option[Date]]("DISCONTINUED")
     def companyId: Rep[Option[Long]] = column[Option[Long]]("COMPANY_ID")
 
-    def * : ProvenShape[Computer] = (id.?, name, introduced, discontinued, companyId) <> ((Computer.apply _).tupled, Computer.unapply)
+    def * : ProvenShape[Computer] = (
+      id.?, name, introduced, discontinued, companyId
+    ) <> ((Computer.apply _).tupled, Computer.unapply)
   }
 }

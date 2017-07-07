@@ -71,7 +71,7 @@ lazy val computerDatabaseSample = sampleProject("computer-database")
       "com.github.stonexx.play.mvc.binders.option._"
     ),
     libraryDependencies ++= Seq(
-      cache,
+      ehcache,
       guice,
       evolutions,
       filters,
@@ -99,7 +99,7 @@ lazy val slickSample = sampleProject("slick")
       Libraries.scalaAsync
     ),
     libraryDependencies ++= Seq(
-      cache,
+      ehcache,
       guice,
       evolutions,
       filters,
@@ -108,8 +108,8 @@ lazy val slickSample = sampleProject("slick")
     ),
     libraryDependencies += Libraries.postgresql,
     libraryDependencies ++= {
-      val akkaVersion = "2.4.17"
-      val camelVersion = "2.18.2"
+      val akkaVersion = "2.5.3"
+      val camelVersion = "2.19.1"
       Seq(
         "com.typesafe.akka" %% "akka-actor" % akkaVersion,
         "com.typesafe.akka" %% "akka-contrib" % akkaVersion,
@@ -122,8 +122,7 @@ lazy val slickSample = sampleProject("slick")
     },
     libraryDependencies ++= Seq(
       "com.github.tminglei" %% "slick-pg_play-json" % Versions.slickPg,
-      "org.apache.poi" % "poi-ooxml" % "3.15",
-      "eu.bitwalker" % "UserAgentUtils" % "1.20"
+      "org.apache.poi" % "poi-ooxml" % "3.16"
     ),
     // Less
     LessKeys.compress := true,

@@ -1,16 +1,16 @@
-@(title: Option[String] = None, module: Option[Call] = None)(head: Html = Html(""))(content: Html)(implicit messages: Messages)
+@(title: Option[String] = None, module: Option[String] = None)(head: Html = Html(""))(content: Html)(implicit messages: Messages, assets: AssetsFinder)
 
 <!DOCTYPE html>
 <html>
   <head>
     <title>@title.getOrElse(Messages("app.name"))</title>
-    <link rel="shortcut icon" type="image/png" href="@routes.Assets.versioned("images/favicon.png")"/>
+    <link rel="shortcut icon" type="image/png" href="@assets.path("images/favicon.png")"/>
     <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
-    <link rel="stylesheet" media="screen" href="@routes.Assets.versioned("css/main.css")"/>
+    <link rel="stylesheet" media="screen" href="@assets.path("css/main.css")"/>
     @module.map { m =>
       <script type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/require.js/2.2.0/require.min.js"></script>
-      <script type="text/javascript" src="@routes.Assets.versioned("js/require-config.js")"></script>
-      <script type="text/javascript">require(['@m.url']);</script>
+      <script type="text/javascript" src="@assets.path("js/require-config.js")"></script>
+      <script type="text/javascript">require(['@m']);</script>
     }
     @head
   </head>

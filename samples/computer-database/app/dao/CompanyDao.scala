@@ -9,8 +9,7 @@ import scala.concurrent.{Future, ExecutionContext}
 
 @Singleton
 class CompanyDao @Inject()(db: Database)(implicit ec: ExecutionContext) {
-  import slick.Tables._
-  import profile.api._
+  import slick.Tables._, profile.api._
 
   private val companies = TableQuery[Companies]
 

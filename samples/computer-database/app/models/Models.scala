@@ -4,7 +4,7 @@ import java.util.Date
 
 import com.github.stonexx.play.mvc.binders.enum._
 import com.github.stonexx.scala.data.OrderedEnumeration
-import play.api.mvc.{PathBindable, QueryStringBindable}
+import play.api.mvc.{QueryStringBindable, PathBindable}
 
 case class Company(id: Option[Long], name: String)
 
@@ -20,6 +20,7 @@ object Computer {
   object forms {
     object Sorts extends OrderedEnumeration {
       type Sorts = Value
+
       val Id           = Value
       val Name         = Value
       val Introduced   = Value

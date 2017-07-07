@@ -1,6 +1,6 @@
-@()(implicit messages: Messages)
+@()(implicit messages: Messages, assets: AssetsFinder)
 
-@layouts.default(Some("WebSocket Testing"), Some(routes.Assets.versioned("js/main-webSocket.js")))() {
+@layouts.default(Some("WebSocket Testing"), Some(assets.path("js/main-webSocket.js")))() {
 
   <div id="log"></div>
 

@@ -19,7 +19,7 @@ object MyWebSocketActor {
   implicit val messageFlowTransformer: MessageFlowTransformer[InEvent, OutEvent] =
     MessageFlowTransformer.jsonMessageFlowTransformer[InEvent, OutEvent]
 
-  def props(out: ActorRef) = Props(classOf[MyWebSocketActor], out)
+  def props(out: ActorRef) = Props(new MyWebSocketActor(out))
 }
 
 class MyWebSocketActor(out: ActorRef) extends Actor {

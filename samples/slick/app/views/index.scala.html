@@ -1,6 +1,6 @@
-@(message: String)(implicit messages: Messages)
+@(message: String)(implicit messages: Messages, assets: AssetsFinder)
 
-@layouts.default(module = Some(routes.Assets.versioned("js/main.js")))() {
+@layouts.default(module = Some(assets.path("js/main.js")))() {
 
   @message
 

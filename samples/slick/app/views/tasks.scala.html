@@ -1,4 +1,6 @@
-@(tasks: Seq[Task], taskForm: Form[String])(implicit messages: Messages)
+@(tasks: Seq[Task], taskForm: Form[String])(implicit request: RequestHeader, messages: Messages, assets: AssetsFinder)
+
+@import helper._
 
 @head = {
   <script type="text/javascript" src="@routes.Tasks.jsRoutes()"></script>
@@ -12,20 +14,24 @@
   @tasks.map { task =>
     <li class="list-group-item">
       @task.label
+      <span class="pull-right">
       @task.id.map { id =>
-        <a href="@routes.Tasks.delete(id)" class="badge">X</a>
+        @form(CSRF(routes.Tasks.delete(id))) {
+          <input type="submit" value="X" class="btn btn-xs btn-danger">
+        }
       }
+      </span>
     </li>
   }
   </ul>
 
   <h2>Add a new task</h2>
 
-  @helper.form(routes.Tasks.create()) {
+  @form(CSRF(routes.Tasks.create())) {
     <div class="row">
       <div class="col-lg-6">
         <div class="input-group">
-        @helper.inputText(taskForm("label"), 'class -> "form-control")
+        @inputText(taskForm("label"), 'class -> "form-control")
         </div>
       </div>
     </div>

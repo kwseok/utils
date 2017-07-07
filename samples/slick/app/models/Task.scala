@@ -3,6 +3,7 @@ package models
 import com.github.stonexx.play.mvc.binders.enum._
 import com.github.stonexx.scala.data.OrderedEnumeration
 import play.api.libs.json.{Json, OFormat}
+import play.api.mvc.{PathBindable, QueryStringBindable}
 
 case class Task(id: Option[Long], label: Option[String])
 
@@ -22,8 +23,8 @@ object Task {
       val Id    = Value
       val Label = Value
 
-      implicit val pathBindable        = enumOrderedPathBindable(this)
-      implicit val queryStringBindable = enumOrderedQueryStringBindable(this)
+      implicit val pathBindable       : PathBindable[Ordered]        = enumOrderedPathBindable(this)
+      implicit val queryStringBindable: QueryStringBindable[Ordered] = enumOrderedQueryStringBindable(this)
     }
   }
 }

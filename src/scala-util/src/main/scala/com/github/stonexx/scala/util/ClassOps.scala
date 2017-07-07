@@ -31,7 +31,8 @@ final class ClassOps[T](val self: Class[T]) extends AnyVal {
     }
 
   @inline
-  def findAnnotation[A <: Annotation : ClassTag]: Option[A] = findAnnotation(TypeUtils.runtimeClass[A])
+  def findAnnotation[A <: Annotation](implicit atag: ClassTag[A]): Option[A] =
+    findAnnotation(atag.runtimeClass.asInstanceOf[Class[A]])
 }
 
 trait ToClassOps {

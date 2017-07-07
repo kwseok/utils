@@ -2,6 +2,7 @@ import org.scalatestplus.play._
 import play.api.Application
 import play.api.test._
 import play.api.test.Helpers._
+import play.api.test.CSRFTokenHelper._
 
 class ApplicationSpec extends PlaySpec with guice.GuiceOneAppPerTest {
 
@@ -43,12 +44,16 @@ class ApplicationSpec extends PlaySpec with guice.GuiceOneAppPerTest {
     }
 
     "create new computer" in {
-      val badResult = applicationController.save(FakeRequest())
+      val badResult = applicationController.save(FakeRequest().withCSRFToken)
 
       status(badResult) must equal(BAD_REQUEST)
 
       val badDateFormat = applicationController.save(
-        FakeRequest().withFormUrlEncodedBody("name" -> "FooBar", "introduced" -> "badbadbad", "company" -> "1")
+        FakeRequest().withFormUrlEncodedBody(
+          "name" -> "FooBar",
+          "introduced" -> "badbadbad",
+          "company" -> "1"
+        ).withCSRFToken
       )
 
       status(badDateFormat) must equal(BAD_REQUEST)
@@ -57,7 +62,11 @@ class ApplicationSpec extends PlaySpec with guice.GuiceOneAppPerTest {
       contentAsString(badDateFormat) must include("""<input type="text" id="name" name="name" value="FooBar" />""")
 
       val result = applicationController.save(
-        FakeRequest().withFormUrlEncodedBody("name" -> "FooBar", "introduced" -> "2011-12-24", "company" -> "1")
+        FakeRequest().withFormUrlEncodedBody(
+          "name" -> "FooBar",
+          "introduced" -> "2011-12-24",
+          "company" -> "1"
+        ).withCSRFToken
       )
 
       status(result) must equal(SEE_OTHER)

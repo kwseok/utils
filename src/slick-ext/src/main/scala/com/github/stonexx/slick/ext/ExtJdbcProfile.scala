@@ -22,29 +22,29 @@ trait ExtJdbcProfile extends JdbcProfile with PageableComponent { self =>
   }
 }
 
-trait ExtDerbyProfile extends DerbyProfile with ExtJdbcProfile
 object ExtDerbyProfile extends ExtDerbyProfile
+trait ExtDerbyProfile extends DerbyProfile with ExtJdbcProfile
 
-trait ExtSQLServerProfile extends SQLServerProfile with ExtJdbcProfile
 object ExtSQLServerProfile extends ExtSQLServerProfile
+trait ExtSQLServerProfile extends SQLServerProfile with ExtJdbcProfile
 
-trait ExtPostgresProfile extends PostgresProfile with ExtJdbcProfile
 object ExtPostgresProfile extends ExtPostgresProfile
+trait ExtPostgresProfile extends PostgresProfile with ExtJdbcProfile
 
-trait ExtH2Profile extends H2Profile with ExtJdbcProfile
 object ExtH2Profile extends ExtH2Profile
+trait ExtH2Profile extends H2Profile with ExtJdbcProfile
 
-trait ExtHsqldbProfile extends HsqldbProfile with ExtJdbcProfile
 object ExtHsqldbProfile extends ExtHsqldbProfile
+trait ExtHsqldbProfile extends HsqldbProfile with ExtJdbcProfile
 
-trait ExtSQLiteProfile extends SQLiteProfile with ExtJdbcProfile
 object ExtSQLiteProfile extends ExtSQLiteProfile
+trait ExtSQLiteProfile extends SQLiteProfile with ExtJdbcProfile
 
-trait ExtMySQLProfile extends MySQLProfile with ExtJdbcProfile
 object ExtMySQLProfile extends ExtMySQLProfile
+trait ExtMySQLProfile extends MySQLProfile with ExtJdbcProfile
 
-trait ExtDB2Profile extends DB2Profile with ExtJdbcProfile
 object ExtDB2Profile extends ExtDB2Profile
+trait ExtDB2Profile extends DB2Profile with ExtJdbcProfile
 
-trait ExtOracleProfile extends OracleProfile with ExtJdbcProfile
 object ExtOracleProfile extends ExtOracleProfile
+trait ExtOracleProfile extends OracleProfile with ExtJdbcProfile

@@ -1,13 +1,15 @@
-@(cats: Seq[Cat], catForm: Form[Cat])(implicit messages: Messages)
+@(cats: Seq[Cat], catForm: Form[Cat])(implicit request: RequestHeader, messages: Messages, assets: AssetsFinder)
+
+@import helper._
 
 @layouts.default(Some("Cat database"))() {
 
   <h2>Insert a kitty cat here:</h2>
 
-  @helper.form(routes.Cats.create()) {
-    @helper.inputText(catForm("name"), 'placeholder -> "name your feline friend")
-    @helper.inputText(catForm("color"), 'placeholder -> "enter the color of this kitty cat")
-    @helper.select(catForm("state"), Cat.State.values.toSeq.map { v => v.toString -> v.label })
+  @form(CSRF(routes.Cats.create())) {
+    @inputText(catForm("name"), 'placeholder -> "name your feline friend")
+    @inputText(catForm("color"), 'placeholder -> "enter the color of this kitty cat")
+    @select(catForm("state"), Cat.State.values.toSeq.map { v => v.toString -> v.label })
     <input type="submit"/>
   }
 
@@ -26,7 +28,11 @@
         <td>@c.color</td>
         <td>@c.flag</td>
         <td>@c.state.label</td>
-        <td><a href="@routes.Cats.delete(c.name)">X</a></td>
+        <td>
+          @form(CSRF(routes.Cats.delete(c.name))) {
+            <input type="submit" value="X" class="btn btn-xs btn-danger">
+          }
+        </td>
       </tr>
     }
   </table>

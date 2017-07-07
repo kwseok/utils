@@ -11,7 +11,7 @@ trait MyPostgresProfile extends ExtPostgresProfile
   with PgEnumSupportFixed
   with PgRangeSupport
   with PgSearchSupport
-  with PgSyntaxSupport {
+  with PgStringSupport {
 
   override val pgjson = "jsonb"
 
@@ -24,7 +24,7 @@ trait MyPostgresProfile extends ExtPostgresProfile
     with JsonImplicits with PlayJsonPlainImplicits
     with RangeImplicits with SimpleRangePlainImplicits
     with SearchImplicits with SearchAssistants with SimpleSearchPlainImplicits
-    with SyntaxImplicits with SyntaxAssistants
+    with StringImplicits
 }
 
 object MyPostgresProfile extends MyPostgresProfile

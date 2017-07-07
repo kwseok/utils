@@ -25,6 +25,7 @@ class Application @Inject()(
   implicit
   ec: ExecutionContext,
   env: Environment,
+  assets: AssetsFinder,
   materializer: Materializer,
   actorSystem: ActorSystem
 ) extends AbstractController(components) with I18nSupport {

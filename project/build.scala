@@ -147,45 +147,45 @@ object Dependencies {
 }
 
 object Versions {
-  val scalaVersions = Seq("2.11.8", "2.12.1")
+  val scalaVersions = Seq("2.11.11", "2.12.2")
 
   val scalaXml   = "1.0.6"
   val scalaAsync = "0.9.6"
 
-  val paradise      = "2.1.0"
-  val kindProjector = "0.9.3"
+  val paradise      = "2.1.1"
+  val kindProjector = "0.9.4"
 
   val cats      = "0.9.0"
   val shapeless = "2.3.2"
 
-  val jodaTime    = "2.9.7"
-  val jodaConvert = "1.8.1"
+  val jodaTime    = "2.9.9"
+  val jodaConvert = "1.8.2"
 
   val play: String = _root_.play.core.PlayVersion.current
-  val playJson     = "2.6.0-M3"
+  val playJson     = "2.6.2"
 
   val slick   = "3.2.0"
-  val slickPg = "0.15.0-M4"
+  val slickPg = "0.15.1"
 
-  val h2         = "1.4.193"
-  val postgresql = "9.4.1212"
+  val h2         = "1.4.196"
+  val postgresql = "42.1.1"
 
-  val guava       = "21.0"
-  val jsoup       = "1.10.2"
-  val ficus       = "1.4.0"
+  val guava       = "22.0"
+  val jsoup       = "1.10.3"
+  val ficus       = "1.4.1"
   val scalaGuice  = "4.1.0"
-  val htmlcleaner = "2.19"
+  val htmlcleaner = "2.21"
 
   val commonsIO    = "2.5"
   val commonsCodec = "1.10"
-  val commonsLang3 = "3.5"
+  val commonsLang3 = "3.6"
 
-  val logbackClassic = "1.2.1"
+  val logbackClassic = "1.2.3"
 
-  val scalatest          = "3.0.1"
-  val scalatestplus_play = "2.0.0-M2"
+  val scalatest          = "3.0.3"
+  val scalatestplus_play = "3.0.0"
 
-  val findbugs = "3.0.1"
+  val findbugs = "3.0.2"
 }
 
 object Libraries {

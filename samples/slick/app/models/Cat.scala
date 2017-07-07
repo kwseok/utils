@@ -13,6 +13,7 @@ case class Cat(
 object Cat {
   object State extends Enumeration {
     type State = Option
+
     val Bad      = Option("The bad")
     val Normal   = Option("The normal")
     val Good     = Option("The good")

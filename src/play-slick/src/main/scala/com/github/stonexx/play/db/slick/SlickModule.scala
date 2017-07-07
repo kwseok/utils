@@ -54,8 +54,7 @@ trait SlickComponents {
 /**
  * Inject provider for DB implementation of Slick API.
  */
-@Singleton
-class SlickApiProvider @Inject()(
+@Singleton class SlickApiProvider @Inject()(
   environment: Environment, configuration: Configuration,
   lifecycle: ApplicationLifecycle
 ) extends Provider[SlickApi] {

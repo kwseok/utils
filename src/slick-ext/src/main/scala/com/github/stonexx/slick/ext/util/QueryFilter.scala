@@ -3,8 +3,7 @@ package com.github.stonexx.slick.ext.util
 import slick.ast.Library.{Or, SqlOperator, And}
 import slick.ast.OptionApply
 import slick.ast.ScalaBaseType._
-import slick.lifted._
-import slick.lifted.FunctionSymbolExtensionMethods._
+import slick.lifted._, FunctionSymbolExtensionMethods._
 
 class QueryFilter[E] private(private val conditions: IndexedSeq[E => Rep[Option[Boolean]]]) {
   type Self = QueryFilter[E]

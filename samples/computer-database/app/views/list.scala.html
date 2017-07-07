@@ -1,7 +1,7 @@
 @import com.github.stonexx.scala.data.Page
 @import models.Computer.forms.Sorts
 
-@(currentPage: Page[(Computer, Option[Company])], currentFilter: String, currentSort: Sorts.Ordered)(implicit request: RequestHeader, messages: Messages)
+@(currentPage: Page[(Computer, Option[Company])], currentFilter: String, currentSort: Sorts.Ordered)(implicit request: RequestHeader, messages: Messages, assets: AssetsFinder)
 
 @import request.flash
 
@@ -18,7 +18,7 @@
 * Helper generating table headers *
 ***********************************@
 @header(sortValue: Sorts.Value, title: String) = {
-  <th class="col@sortValue.id header @if(currentSort.has(sortValue)) @{if(currentSort.isAsc(sortValue)) "headerSortUp" else "headerSortDown"}">
+  <th class="col@sortValue.id header @if(currentSort.has(sortValue)){@{if(currentSort.isAsc(sortValue)) "headerSortUp" else "headerSortDown"}}">
     <a href="@link(1, Some(sortValue))">@title</a>
   </th>
 }

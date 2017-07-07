@@ -1,4 +1,4 @@
-@(id: Long, computerForm: Form[Computer], companies: Seq[(String, String)])(implicit messages: Messages)
+@(id: Long, computerForm: Form[Computer], companies: Seq[(String, String)])(implicit request: RequestHeader, messages: Messages, assets: AssetsFinder)
 
 @import helper._
 
@@ -8,7 +8,7 @@
 
   <h1>Edit computer</h1>
 
-  @form(routes.Application.update(id)) {
+  @form(CSRF(routes.Application.update(id))) {
 
     <fieldset>
 
@@ -32,7 +32,7 @@
 
   }
 
-  @form(routes.Application.delete(id), 'class -> "topRight") {
+  @form(CSRF(routes.Application.delete(id)), 'class -> "topRight") {
     <input type="submit" value="Delete this computer" class="btn danger">
   }
 

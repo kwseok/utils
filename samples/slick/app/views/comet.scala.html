@@ -1,10 +1,10 @@
-@()(implicit messages: Messages)
+@()(implicit messages: Messages, assets: AssetsFinder)
 
 @layouts.default(Some("Comet Example"))() {
 
   <script type="text/javascript">
       function cometMessage (event) {
-        console.log('Received event: ' + event);
+        console.log('Received event: ' + event)
       }
   </script>
   <iframe src="@routes.Application.cometEvents()" style="display: none ;"></iframe>
