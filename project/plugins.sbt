@@ -3,7 +3,7 @@ logLevel := Level.Warn
 resolvers += Resolver.typesafeRepo("releases")
 
 // The Play plugin
-addSbtPlugin("com.typesafe.play" % "sbt-plugin" % sys.props.getOrElse("play.version", "2.6.0"))
+addSbtPlugin("com.typesafe.play" % "sbt-plugin" % sys.props.getOrElse("play.version", "2.6.1"))
 
 // web plugins
 addSbtPlugin("com.typesafe.sbt" % "sbt-coffeescript" % "1.0.1")
