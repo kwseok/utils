@@ -12,7 +12,7 @@ Installation
 
 Add scala version to your project build.sbt (supports scala 2.11 or 2.12):
 ```scala
-scalaVersion := "2.11.8"
+scalaVersion := "2.11.11"
 ```
 
 Add resolver to project build.sbt:
@@ -22,30 +22,30 @@ resolvers += Resolver.jcenterRepo
 
 > If you need `play-slick` support, add dependency:
 ```scala
-libraryDependencies += "com.github.stonexx" %% "play-slick" % "0.6.5-M3"
+libraryDependencies += "com.github.stonexx" %% "play-slick" % "0.6.5"
 ```
 
 > If you need `play-slick-jdbc-adapter` support, add dependency:
 ```scala
-libraryDependencies += "com.github.stonexx" %% "play-slick-jdbc-adapter" % "0.6.5-M3"
+libraryDependencies += "com.github.stonexx" %% "play-slick-jdbc-adapter" % "0.6.5"
 ```
 
 > If you need `play-util` support, add dependency:
 ```scala
-libraryDependencies += "com.github.stonexx" %% "play-util" % "0.6.5-M3"
+libraryDependencies += "com.github.stonexx" %% "play-util" % "0.6.5"
 ```
 
 > If you need `slick-ext` support, add dependency:
 ```scala
-libraryDependencies += "com.github.stonexx" %% "slick-ext" % "0.6.5-M3"
+libraryDependencies += "com.github.stonexx" %% "slick-ext" % "0.6.5"
 ```
 
 > If you need `slick-pg` support, add dependency:
 ```scala
-libraryDependencies += "com.github.stonexx" %% "slick-pg" % "0.6.5-M3"
+libraryDependencies += "com.github.stonexx" %% "slick-pg" % "0.6.5"
 ```
 
 > If you need `scala-util` support, add dependency:
 ```scala
-libraryDependencies += "com.github.stonexx" %% "scala-util" % "0.6.5-M3"
+libraryDependencies += "com.github.stonexx" %% "scala-util" % "0.6.5"
 ```
