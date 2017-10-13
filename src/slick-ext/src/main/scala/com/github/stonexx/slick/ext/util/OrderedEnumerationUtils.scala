@@ -5,7 +5,7 @@ import slick.lifted.Rep
 
 object OrderedEnumerationUtils {
 
-  def toSlickOrdered[E <: OrderedEnumeration](o: E#Ordered)(f: E#Value => Rep[_]) = new slick.lifted.Ordered(o.values.map {
+  def toSlickOrdered[O <: OrderedEnumeration](o: O#Ordered)(f: O#Value => Rep[_]) = new slick.lifted.Ordered(o.values.map {
     case (v, ord) => (f(v).toNode, slick.ast.Ordering(
       direction = ord.direction match {
         case Ordering.Asc => slick.ast.Ordering.Asc

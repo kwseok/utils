@@ -3,7 +3,7 @@ package dao
 import javax.inject.{Inject, Singleton}
 
 import com.github.stonexx.scala.data.Page
-import com.github.stonexx.slick.ext.{QuerySortCondition, ExtJdbcProfile}
+import com.github.stonexx.slick.ext.ExtJdbcProfile
 import models.{Computer, Company}
 import play.api.db.slick.{HasDatabaseConfigProvider, DatabaseConfigProvider}
 import slick.{ComputersComponent, CompaniesComponent}
@@ -39,7 +39,7 @@ class ComputerDao @Inject()(
       if computer.name.toLowerCase like filter.toLowerCase
     } yield (computer, company)
 
-    implicit val querySortCondition: QuerySortCondition[(Computers, Rep[Option[Companies]]), S.Ordered] = QueryExtensions.orderCondition[(Computers, Rep[Option[Companies]]), S.type] {
+    implicit val querySortCondition: QuerySortCondition[(Computers, Rep[Option[Companies]]), S.Ordered] = QueryConditions.orderCondition[(Computers, Rep[Option[Companies]]), S.type] {
       case S.Id => _._1.id
       case S.Name => _._1.name
       case S.Introduced => _._1.introduced

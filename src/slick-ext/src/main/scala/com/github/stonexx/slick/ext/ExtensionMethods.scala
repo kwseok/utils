@@ -2,7 +2,7 @@ package com.github.stonexx.slick.ext
 
 import com.github.stonexx.scala.data.OrderedEnumeration
 import com.github.stonexx.slick.ext.exceptions._
-import com.github.stonexx.slick.ext.util.{OrderedEnumerationUtils, QueryFilter}
+import com.github.stonexx.slick.ext.util._
 import slick.ast._, Library.SqlFunction
 import slick.basic.BasicStreamingAction
 import slick.dbio._
@@ -25,14 +25,6 @@ trait ColumnExtensionMethods[B1, P1] extends Any with ExtensionMethods[B1, P1] {
 final class BaseColumnExtensionMethods[B1](val c: Rep[B1]) extends AnyVal with ColumnExtensionMethods[B1, B1] with BaseExtensionMethods[B1]
 
 final class OptionColumnExtensionMethods[B1](val c: Rep[Option[B1]]) extends AnyVal with ColumnExtensionMethods[B1, Option[B1]] with OptionExtensionMethods[B1]
-
-trait QueryFilterCondition[E, F] {
-  def condition: F => QueryFilter[E] => QueryFilter[E]
-}
-
-trait QuerySortCondition[E, S] {
-  def condition: S => E => slick.lifted.Ordered
-}
 
 final class QueryExtensionMethods[E, U, C[_]](val q: Query[E, U, C]) extends AnyVal {
   def takeIfPositive(size: Long): Query[E, U, C] = size max 0 match {
@@ -97,8 +89,8 @@ final class SQLActionBuilderExtensionMethods(val builder: SQLActionBuilder) exte
   def ++(opt: Option[SQLActionBuilder]): SQLActionBuilder = opt.map(++).getOrElse(builder)
 }
 
-final class OrderedEnumerationExtensionMethods[E <: OrderedEnumeration](val o: E#Ordered) extends AnyVal {
-  @inline def toSlickOrdered(f: E#Value => Rep[_]): slick.lifted.Ordered = OrderedEnumerationUtils.toSlickOrdered(o)(f)
+final class OrderedEnumerationExtensionMethods[O <: OrderedEnumeration](val o: O#Ordered) extends AnyVal {
+  @inline def toSlickOrdered(f: O#Value => Rep[_]): slick.lifted.Ordered = OrderedEnumerationUtils.toSlickOrdered(o)(f)
 }
 
 trait ExtensionMethodConversions {
