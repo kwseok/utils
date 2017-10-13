@@ -1,7 +1,5 @@
 # Utilities for Scala, Slick & Play [![Build Status](https://travis-ci.org/stonexx/utils.svg?branch=master)](https://travis-ci.org/stonexx/utils)
 
-- [play-slick](https://github.com/stonexx/utils/tree/master/src/play-slick)
-- [play-slick-jdbc-adapter](https://github.com/stonexx/utils/tree/master/src/play-slick-jdbc-adapter)
 - [play-util](https://github.com/stonexx/utils/tree/master/src/play-util)
 - [slick-ext](https://github.com/stonexx/utils/tree/master/src/slick-ext)
 - [slick-pg](https://github.com/stonexx/utils/tree/master/src/slick-pg)
@@ -20,32 +18,22 @@ Add resolver to project build.sbt:
 resolvers += Resolver.jcenterRepo
 ```
 
-> If you need `play-slick` support, add dependency:
-```scala
-libraryDependencies += "com.github.stonexx" %% "play-slick" % "0.6.5"
-```
-
-> If you need `play-slick-jdbc-adapter` support, add dependency:
-```scala
-libraryDependencies += "com.github.stonexx" %% "play-slick-jdbc-adapter" % "0.6.5"
-```
-
 > If you need `play-util` support, add dependency:
 ```scala
-libraryDependencies += "com.github.stonexx" %% "play-util" % "0.6.5"
+libraryDependencies += "com.github.stonexx" %% "play-util" % "0.6.6"
 ```
 
 > If you need `slick-ext` support, add dependency:
 ```scala
-libraryDependencies += "com.github.stonexx" %% "slick-ext" % "0.6.5"
+libraryDependencies += "com.github.stonexx" %% "slick-ext" % "0.6.6"
 ```
 
 > If you need `slick-pg` support, add dependency:
 ```scala
-libraryDependencies += "com.github.stonexx" %% "slick-pg" % "0.6.5"
+libraryDependencies += "com.github.stonexx" %% "slick-pg" % "0.6.6"
 ```
 
 > If you need `scala-util` support, add dependency:
 ```scala
-libraryDependencies += "com.github.stonexx" %% "scala-util" % "0.6.5"
+libraryDependencies += "com.github.stonexx" %% "scala-util" % "0.6.6"
 ```
