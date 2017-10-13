@@ -11,10 +11,10 @@ trait LimitForms {
     "from" -> optional(m),
     "to" -> optional(m),
     "eq" -> optional(m)
-  )(
-    (from, to, eq) => Limit(from orElse eq, to orElse eq)
-  )(
-    limit => Option(limit.from, limit.to, limit.from.filter(limit.to.contains))
-  )
+  ) { (from, to, eq) =>
+    Limit(from orElse eq, to orElse eq)
+  } { limit =>
+    Option(limit.from, limit.to, limit.from.filter(limit.to.contains))
+  }
 
 }

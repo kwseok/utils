@@ -1,10 +1,11 @@
 package slick
 
-import com.github.stonexx.slick.ext.{ExtJdbcProfile, HasSlickProfile}
+import com.github.stonexx.slick.ext.ExtJdbcProfile
 import models.Company
+import play.api.db.slick.HasDatabaseConfig
 import slick.lifted.ProvenShape
 
-trait CompaniesComponent { this: HasSlickProfile[ExtJdbcProfile] with CommonComponent =>
+trait CompaniesComponent { this: HasDatabaseConfig[ExtJdbcProfile] =>
   import profile.api._
 
   class Companies(tag: Tag) extends Table[Company](tag, "COMPANY") {
@@ -15,4 +16,3 @@ trait CompaniesComponent { this: HasSlickProfile[ExtJdbcProfile] with CommonComp
     def * : ProvenShape[Company] = (id.?, name).mapTo[Company]
   }
 }
-

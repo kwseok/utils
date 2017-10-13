@@ -1,6 +1,7 @@
-import com.github.stonexx.play.db.slick.DB
+import controllers.Cats
 import org.scalatestplus.play._
-import play.api.db.DBApi
+import play.api.Application
+import play.api.db.slick.{DatabaseConfigProvider, HasDatabaseConfigProvider}
 import play.api.test._
 import play.api.test.Helpers._
 
@@ -11,12 +12,16 @@ import scala.concurrent.ExecutionContext
  */
 class DBSpec extends PlaySpec with guice.GuiceOneAppPerTest {
 
-  "DB" should {
-    "work as expected" in {
-      import models._
-      import slick.Tables._, profile.api._
+  class WithCatsComponent(protected val dbConfigProvider: DatabaseConfigProvider)
+    extends slick.CatsComponent
+      with HasDatabaseConfigProvider[slick.MyPostgresProfile]
 
+  "DB" should {
+    "work as expected" in new WithCatsComponent(app.injector.instanceOf[DatabaseConfigProvider]) {
       implicit val ec = app.injector.instanceOf[ExecutionContext]
+
+      import profile.api._
+      import models._
 
       val cats = TableQuery[Cats]
 
@@ -25,7 +30,7 @@ class DBSpec extends PlaySpec with guice.GuiceOneAppPerTest {
         Cat("garfield", "orange", flag = true, Cat.State.Good),
         Cat("creme puff", "grey", flag = true, Cat.State.VeryGood)
       )
-      await(DB.run((for {
+      await(db.run((for {
         oldCats <- cats.result
         _ <- cats.delete
         _ <- cats ++= testKitties
@@ -33,18 +38,6 @@ class DBSpec extends PlaySpec with guice.GuiceOneAppPerTest {
         _ <- cats.delete
         _ <- cats ++= oldCats
       } yield ()).transactionally))
-    }
-
-    "use the correct db settings when specified" in {
-      app.injector.instanceOf[DBApi].database("specific").withConnection { implicit conn =>
-        conn.getMetaData.getURL must equal("jdbc:h2:mem:veryspecialindeed")
-      }
-    }
-
-    "use the default db settings when no other possible options are available" in {
-      app.injector.instanceOf[DBApi].database("default").withConnection { implicit conn =>
-        conn.getMetaData.getURL must equal("jdbc:h2:mem:play")
-      }
     }
   }
 

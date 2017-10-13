@@ -2,15 +2,23 @@ package dao
 
 import javax.inject.{Inject, Singleton}
 
-import com.github.stonexx.play.db.slick.Database
 import com.github.stonexx.scala.data.Page
+import com.github.stonexx.slick.ext.{QuerySortCondition, ExtJdbcProfile}
 import models.{Computer, Company}
+import play.api.db.slick.{HasDatabaseConfigProvider, DatabaseConfigProvider}
+import slick.{ComputersComponent, CompaniesComponent}
 
 import scala.concurrent.{Future, ExecutionContext}
 
 @Singleton
-class ComputerDao @Inject()(db: Database)(implicit ec: ExecutionContext) {
-  import slick.Tables._, profile.api._
+class ComputerDao @Inject()(
+  protected val dbConfigProvider: DatabaseConfigProvider
+)(implicit ec: ExecutionContext)
+  extends HasDatabaseConfigProvider[ExtJdbcProfile]
+    with ComputersComponent
+    with CompaniesComponent {
+
+  import profile.api._
   import Computer.forms.{Sorts => S}
 
   private val computers = TableQuery[Computers]
@@ -31,7 +39,7 @@ class ComputerDao @Inject()(db: Database)(implicit ec: ExecutionContext) {
       if computer.name.toLowerCase like filter.toLowerCase
     } yield (computer, company)
 
-    def sorting(q: computersWithCompaniesQuery.type) = q.sortByOrdered(sortBy) {
+    implicit val querySortCondition: QuerySortCondition[(Computers, Rep[Option[Companies]]), S.Ordered] = QueryExtensions.orderCondition[(Computers, Rep[Option[Companies]]), S.type] {
       case S.Id => _._1.id
       case S.Name => _._1.name
       case S.Introduced => _._1.introduced
@@ -41,7 +49,7 @@ class ComputerDao @Inject()(db: Database)(implicit ec: ExecutionContext) {
 
     db.run(for {
       total <- countAction(filter)
-      list <- sorting(computersWithCompaniesQuery).drop(offset).take(size).result
+      list <- computersWithCompaniesQuery.sortByCondition(sortBy).drop(offset).take(size).result
     } yield Page(list, page, size, total))
   }
 

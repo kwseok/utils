@@ -1,4 +1,4 @@
-@import com.github.stonexx.scala.data.Page
+@import com.github.stonexx.scala.data.{Page, Ordering}
 @import models.Computer.forms.Sorts
 
 @(currentPage: Page[(Computer, Option[Company])], currentFilter: String, currentSort: Sorts.Ordered)(implicit request: RequestHeader, messages: Messages, assets: AssetsFinder)
@@ -10,7 +10,12 @@
 ****************************************@
 @link(newPage: Int, newSortValue: Option[Sorts.Value] = None) = @{
   routes.Application.list(newPage, currentFilter, newSortValue.map { sortValue =>
-    if(currentSort.has(sortValue)) currentSort.reverse(sortValue) else currentSort - sortValue
+    if (currentSort.has(sortValue, Ordering.Asc))
+      currentSort.reverse(sortValue)
+    else if (currentSort.has(sortValue, Ordering.Desc))
+      currentSort - sortValue
+    else
+      currentSort + sortValue - Sorts.Id
   }.orElse(Some(currentSort)))
 }
 

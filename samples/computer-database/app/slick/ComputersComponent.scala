@@ -2,11 +2,12 @@ package slick
 
 import java.util.Date
 
-import com.github.stonexx.slick.ext.{ExtJdbcProfile, HasSlickProfile}
+import com.github.stonexx.slick.ext.ExtJdbcProfile
 import models.Computer
+import play.api.db.slick.HasDatabaseConfig
 import slick.lifted.ProvenShape
 
-trait ComputersComponent { this: HasSlickProfile[ExtJdbcProfile] with CommonComponent =>
+trait ComputersComponent extends CommonComponent { this: HasDatabaseConfig[ExtJdbcProfile] =>
   import profile.api._
 
   class Computers(tag: Tag) extends Table[Computer](tag, "COMPUTER") {

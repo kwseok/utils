@@ -53,7 +53,8 @@ trait PgArraySupportFixed extends PgArraySupport { self: PostgresProfile =>
     private val simpleArrayTypeCache = CacheBuilder.newBuilder.maximumSize(500).build[ru.TypeTag[_], JdbcType[_]]
 
     implicit def simpleArrayJdbcType[T, C[X] <: Seq[X]](
-      implicit t: SimpleArrayJdbcType[T],
+      implicit
+      t: SimpleArrayJdbcType[T],
       ct: ClassTag[C[T]], tt: ru.TypeTag[C[T]],
       cbf: CanBuildFrom[Nothing, T, C[T@uV]]
     ): JdbcType[C[T]] = {
@@ -65,7 +66,8 @@ trait PgArraySupportFixed extends PgArraySupport { self: PostgresProfile =>
     private val advancedArrayTypeCache = CacheBuilder.newBuilder.maximumSize(500).build[ru.TypeTag[_], JdbcType[_]]
 
     implicit def advancedArrayJdbcType[T, C[X] <: Seq[X]](
-      implicit t: AdvancedArrayJdbcType[T],
+      implicit
+      t: AdvancedArrayJdbcType[T],
       ct: ClassTag[C[T]], tt: ru.TypeTag[C[T]],
       cbf: CanBuildFrom[Nothing, T, C[T@uV]]
     ): JdbcType[C[T]] = {

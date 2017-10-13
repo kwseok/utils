@@ -2,15 +2,20 @@ package dao
 
 import javax.inject.{Inject, Singleton}
 
-import com.github.stonexx.play.db.slick.Database
 import models.Cat
 import org.reactivestreams.Publisher
+import play.api.db.slick.{HasDatabaseConfigProvider, DatabaseConfigProvider}
+import slick.{MyPostgresProfile, CatsComponent}
 
 import scala.concurrent.Future
 
 @Singleton
-class CatDao @Inject()(db: Database) {
-  import slick.Tables._, profile.api._
+class CatDao @Inject()(
+  protected val dbConfigProvider: DatabaseConfigProvider
+) extends HasDatabaseConfigProvider[MyPostgresProfile]
+  with CatsComponent {
+
+  import profile.api._
 
   private val cats = TableQuery[Cats]
 

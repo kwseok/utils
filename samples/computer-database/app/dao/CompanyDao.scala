@@ -2,14 +2,21 @@ package dao
 
 import javax.inject.{Inject, Singleton}
 
-import com.github.stonexx.play.db.slick.Database
+import com.github.stonexx.slick.ext.ExtJdbcProfile
 import models.Company
+import play.api.db.slick.{HasDatabaseConfigProvider, DatabaseConfigProvider}
+import slick.CompaniesComponent
 
 import scala.concurrent.{Future, ExecutionContext}
 
 @Singleton
-class CompanyDao @Inject()(db: Database)(implicit ec: ExecutionContext) {
-  import slick.Tables._, profile.api._
+class CompanyDao @Inject()(
+  protected val dbConfigProvider: DatabaseConfigProvider
+)(implicit ec: ExecutionContext)
+  extends HasDatabaseConfigProvider[ExtJdbcProfile]
+    with CompaniesComponent {
+
+  import profile.api._
 
   private val companies = TableQuery[Companies]
 

@@ -1,11 +1,13 @@
 package slick
 
-import com.github.stonexx.slick.ext.HasSlickProfile
 import models.Cat
+import play.api.db.slick.HasDatabaseConfig
 import slick.lifted.ProvenShape
 
-trait CatsComponent { this: HasSlickProfile[MyPostgresProfile] with CommonComponent =>
+trait CatsComponent { this: HasDatabaseConfig[MyPostgresProfile] =>
   import profile.api._
+
+  implicit lazy val catStateColumnType: BaseColumnType[Cat.State.Value] = MappedEnumColumnType.name(Cat.State)
 
   class Cats(tag: Tag) extends Table[Cat](tag, "cats") {
 

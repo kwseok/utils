@@ -2,14 +2,19 @@ package dao
 
 import javax.inject.{Inject, Singleton}
 
-import com.github.stonexx.play.db.slick.Database
 import models.Task
+import play.api.db.slick.{HasDatabaseConfigProvider, DatabaseConfigProvider}
+import slick.{MyPostgresProfile, TasksComponent}
 
 import scala.concurrent.Future
 
 @Singleton
-class TaskDao @Inject()(db: Database) {
-  import slick.Tables._, profile.api._
+class TaskDao @Inject()(
+  protected val dbConfigProvider: DatabaseConfigProvider
+) extends HasDatabaseConfigProvider[MyPostgresProfile]
+  with TasksComponent {
+
+  import profile.api._
 
   private val tasks = TableQuery[Tasks]
 

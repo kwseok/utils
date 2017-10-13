@@ -1,10 +1,10 @@
 package slick
 
-import com.github.stonexx.slick.ext.HasSlickProfile
 import models.Task
+import play.api.db.slick.HasDatabaseConfig
 import slick.lifted.ProvenShape
 
-trait TasksComponent { this: HasSlickProfile[MyPostgresProfile] =>
+trait TasksComponent { this: HasDatabaseConfig[MyPostgresProfile] =>
   import profile.api._
 
   class Tasks(tag: Tag) extends Table[Task](tag, "tasks") {

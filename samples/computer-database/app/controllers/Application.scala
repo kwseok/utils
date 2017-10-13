@@ -28,7 +28,7 @@ class Application @Inject()(
   import Computer.forms._
 
   /** This result directly redirect to the application home. */
-  val Home = Redirect(routes.Application.list())
+  val Home: Result = Redirect(routes.Application.list())
 
   /** Describe the computer form (used in both edit and create screens). */
   val computerForm = Form(
@@ -54,7 +54,7 @@ class Application @Inject()(
    * @param sort   Column to be sorted
    */
   def list(page: Int, filter: String, sort: Option[Sorts.Ordered]): Action[AnyContent] = Action.async { implicit request =>
-    val sortBy = sort.getOrElse(Sorts.Id.desc)
+    val sortBy = sort.filter(_.isDefined).getOrElse(Sorts.Id.desc)
     val computers = computerDao.list(page, sortBy = sortBy, filter = "%" + filter + "%")
     computers.map(cs => Ok(views.html.list(cs, filter, sortBy)))
   }
